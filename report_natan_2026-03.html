@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="NATAN 月次レポート（2026年3月）">
+<meta property="og:description" content="CAGOO株式会社 運営レポート">
+<title>NATAN 月次レポート（2026年3月）- CAGOO</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,'Hiragino Sans',sans-serif;color:#222;background:#f5f5f5;line-height:1.6}
+.container{max-width:900px;margin:0 auto;padding:16px}
+header{background:#fff;border-radius:12px;padding:24px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+header h1{font-size:1.3rem;color:#111}
+header .meta{color:#666;font-size:.85rem;margin-top:4px}
+.card{background:#fff;border-radius:12px;padding:20px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card h2{font-size:1.05rem;color:#111;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #eee}
+.card h3{font-size:.95rem;color:#333;margin:12px 0 8px}
+.grid{display:grid;gap:12px}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.stat{background:#f8f8f8;border-radius:8px;padding:14px;text-align:center}
+.stat .label{font-size:.75rem;color:#888;margin-bottom:2px}
+.stat .value{font-size:1.4rem;font-weight:700;color:#111}
+.stat .sub{font-size:.75rem;color:#666;margin-top:2px}
+.stat .up{color:#16a34a}
+.stat .down{color:#dc2626}
+.compare-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0}
+.compare-row:last-child{border-bottom:none}
+.compare-row .item{font-size:.85rem;color:#555;flex:1}
+.compare-row .val{font-size:.9rem;font-weight:600;text-align:right;min-width:80px}
+.compare-row .change{font-size:.8rem;text-align:right;min-width:70px}
+.bar-wrap{background:#eee;border-radius:4px;height:22px;margin:4px 0;position:relative;overflow:hidden}
+.bar{height:100%;border-radius:4px;display:flex;align-items:center;padding:0 8px;font-size:.7rem;color:#fff;font-weight:600}
+.bar.airbnb{background:#ff5a5f}
+.bar.booking{background:#003580}
+.bar.direct{background:#16a34a}
+.review-score{display:inline-flex;align-items:center;gap:4px;background:#fef3c7;padding:4px 10px;border-radius:20px;font-weight:600;font-size:.9rem}
+.tag{display:inline-block;padding:2px 8px;border-radius:12px;font-size:.75rem;margin:2px}
+.tag.pos{background:#dcfce7;color:#166534}
+.tag.neg{background:#fee2e2;color:#991b1b}
+.proposal{background:#f0f9ff;border-left:3px solid #3b82f6;padding:10px 14px;margin:6px 0;border-radius:0 8px 8px 0;font-size:.85rem}
+.trend{background:#fefce8;border-left:3px solid #eab308;padding:10px 14px;margin:6px 0;border-radius:0 8px 8px 0;font-size:.85rem}
+.review-item{background:#f9fafb;border-radius:8px;padding:10px 14px;margin:6px 0}
+.review-header{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.review-date{font-size:.8rem;color:#888;font-weight:600}
+.review-stars{font-size:.85rem;color:#f59e0b;font-weight:700}
+.review-source{font-size:.7rem;background:#e5e7eb;color:#555;padding:1px 6px;border-radius:10px}
+.review-guest{font-size:.8rem;color:#666}
+.review-body{font-size:.85rem;color:#333;line-height:1.5}
+.footer{text-align:center;padding:20px;color:#999;font-size:.75rem}
+a{color:#3b82f6;text-decoration:none}
+a:hover{text-decoration:underline}
+@media(max-width:600px){
+  .container{padding:8px}
+  .card{padding:14px}
+  .stat .value{font-size:1.1rem}
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>NATAN 月次レポート</h1>
+  <div class="meta">2026年3月 | CAGOO株式会社 | 自社 様</div>
+</header>
+
+<!-- ===== 施設ごとの実績（複数リスティングの場合は繰り返し） ===== -->
+
+<div class="card">
+  <h2>NATAN — 月間実績</h2>
+  <div class="grid grid-4">
+    <div class="stat">
+      <div class="label">総売上</div>
+      <div class="value">¥746,755</div>
+      <div class="sub">手数料控除後 ¥634,742</div>
+    </div>
+    <div class="stat">
+      <div class="label">稼働率</div>
+      <div class="value">87.1%</div>
+      <div class="sub">27/31泊</div>
+    </div>
+    <div class="stat">
+      <div class="label">ADR</div>
+      <div class="value">¥27,658</div>
+      <div class="sub">平均日額料金</div>
+    </div>
+    <div class="stat">
+      <div class="label">予約件数</div>
+      <div class="value">16件</div>
+      <div class="sub">前月比 <span class="up">+0件</span></div>
+    </div>
+  </div>
+
+  <h3>前月比較</h3>
+  <div class="compare-row">
+    <span class="item">売上</span>
+    <span class="val">¥617,320 → ¥746,755</span>
+    <span class="change up">+21%</span>
+  </div>
+  <div class="compare-row">
+    <span class="item">稼働率</span>
+    <span class="val">85.7% → 87.1%</span>
+    <span class="change up">+1.4%</span>
+  </div>
+
+  
+</div>
+
+
+<!-- ===== エリア競合比較 ===== -->
+<div class="card">
+  <h2>エリア競合比較（河口湖）</h2>
+  <div class="grid grid-3">
+    <div class="stat">
+      <div class="label">エリア平均稼働率</div>
+      <div class="value">62%</div>
+    </div>
+    <div class="stat">
+      <div class="label">エリア平均ADR</div>
+      <div class="value">¥18,800</div>
+    </div>
+    <div class="stat">
+      <div class="label">本施設との差</div>
+      <div class="value up">+25%</div>
+      <div class="sub">稼働率ベース</div>
+    </div>
+  </div>
+  <div class="meta" style="margin-top:8px">データソース: AirDNA</div>
+</div>
+
+<!-- ===== OTA別予約比率 ===== -->
+<div class="card">
+  <h2>OTA別予約比率</h2>
+  
+  <h3>NATAN</h3>
+  <div class="bar-wrap">
+    <div class="bar airbnb" style="width:25%">Airbnb 25%</div>
+  </div>
+  <div class="bar-wrap">
+    <div class="bar booking" style="width:75%">Booking.com 75%</div>
+  </div>
+  
+  <div class="meta">前月比: Airbnb 25% / Booking.com 75%</div>
+  
+</div>
+
+<!-- ===== 予約リードタイム ===== -->
+<div class="card">
+  <h2>予約リードタイム</h2>
+  
+  <div class="compare-row">
+    <span class="item">NATAN</span>
+    <span class="val">平均 58日前</span>
+    <span class="change">前月105日 / 前年-日</span>
+  </div>
+  
+  <div class="meta" style="margin-top:8px"></div>
+</div>
+
+<!-- ===== レビュー ===== -->
+<div class="card">
+  <h2>レビュー（3月）</h2>
+  
+  <h3>NATAN</h3>
+  <div style="margin-bottom:8px">
+    <span class="review-score">★ -</span>
+    <span style="font-size:.85rem;color:#666;margin-left:8px">新着0件 / 累計 ★- (-件)</span>
+  </div>
+  <div style="margin-bottom:8px">
+    <span class="tag pos"></span>
+    <span class="tag neg"></span>
+  </div>
+  
+  <div class="review-item">
+    <div class="review-header">
+      <span class="review-date">-</span>
+      <span class="review-stars">★ -</span>
+      <span class="review-source">-</span>
+      <span class="review-guest">-</span>
+    </div>
+    <div class="review-body">「レビューデータは次回取得予定」</div>
+  </div>
+  
+  
+</div>
+
+<!-- ===== 改善提案 ===== -->
+<div class="card">
+  <h2>改善提案</h2>
+  
+  <div class="proposal">実データに基づく改善提案は次回review-analyst実行時に生成</div>
+  
+</div>
+
+<!-- ===== 今年の傾向 ===== -->
+<div class="card">
+  <h2>今年の傾向</h2>
+  
+  <div class="trend">3月は全体的に稼働率が改善傾向</div>
+  
+</div>
+
+<!-- ===== 今後の見通し ===== -->
+<div class="card">
+  <h2>今後の見通し</h2>
+  
+  <h3>4月</h3>
+  
+  <div class="compare-row">
+    <span class="item">NATAN</span>
+    <span class="val">確定要確認件 / ¥要確認 / 要確認%</span>
+    <span class="change">昨年: -%</span>
+  </div>
+  
+  
+  <h3>5月</h3>
+  
+  <div class="compare-row">
+    <span class="item">NATAN</span>
+    <span class="val">確定要確認件 / ¥要確認 / 要確認%</span>
+    <span class="change">昨年: -%</span>
+  </div>
+  
+  
+</div>
+
+<!-- ===== データリンク ===== -->
+<div class="card">
+  <h2>データ共有</h2>
+  <p style="font-size:.85rem;color:#555;margin-bottom:8px">毎日更新している予約・売上データのスプレッドシートです。</p>
+  
+  <p><a href="https://docs.google.com/spreadsheets/d/1EXOd21yskznIljhqPeCAYGJSyG23FClj5RIFYCe1IWE/edit" target="_blank" rel="noopener">NATAN 予約データ</a></p>
+  
+</div>
+
+<div class="footer">
+  <p>CAGOO株式会社 | 早川拓真</p>
+  <p>レポート生成日: 2026-04-05</p>
+</div>
+
+</div>
+</body>
+</html>
