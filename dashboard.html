@@ -41,7 +41,7 @@ body{font-family:'Helvetica Neue',Arial,'Hiragino Sans','Yu Gothic',sans-serif;b
 .fname{font-size:15px;font-weight:700;color:var(--text);}
 .fname a{color:var(--text);text-decoration:none;border-bottom:1px dashed var(--border);transition:.15s;}
 .fname a:hover{color:var(--blue);border-bottom-color:var(--blue);}
-.three-months{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
+.three-months{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
 .m-col{text-align:center;}
 .m-label{font-size:10px;color:var(--text3);margin-bottom:3px;font-weight:500;}
 .m-bar{height:3px;background:#eee;border-radius:2px;margin-bottom:4px;overflow:hidden;}
@@ -50,6 +50,9 @@ body{font-family:'Helvetica Neue',Arial,'Hiragino Sans','Yu Gothic',sans-serif;b
 .m-rev{font-size:10px;color:var(--text3);margin-top:1px;}
 .vacancy-section{margin-bottom:10px;}
 .vac-header{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.vac-row{margin-bottom:8px;}
+.vac-month{font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:4px;}
+.vac-count{color:var(--text3);font-weight:400;margin-left:4px;}
 .vac-tags{display:flex;flex-wrap:wrap;gap:3px;align-items:center;}
 .no-vacancy{font-size:11px;color:var(--text3);font-style:italic;}
 .vtag{display:inline-block;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:600;border:1px solid;white-space:nowrap;}
@@ -74,8 +77,8 @@ body{font-family:'Helvetica Neue',Arial,'Hiragino Sans','Yu Gothic',sans-serif;b
   </div>
   <div class="meta">
     集計日 <strong>2026-04-06</strong><br>
-    更新時刻 <strong>2026-04-06 08:38</strong><br>
-    データソース <strong>AirHost ONE 料金カレンダー</strong>
+    更新時刻 <strong>2026-04-06 08:47</strong><br>
+    対象期間 <strong>2026-04-06 〜 2026-06-04（60日間）</strong>
   </div>
 </div>
 
@@ -83,35 +86,36 @@ body{font-family:'Helvetica Neue',Arial,'Hiragino Sans','Yu Gothic',sans-serif;b
 
   <!-- サマリー -->
   <div class="card">
-    <div class="section-title">全体サマリー（2026-04-06 〜 2026-05-05）</div>
+    <div class="section-title">全体サマリー</div>
     <div class="summary-grid">
       <div class="sum-box">
         <div class="sum-label">管理施設数</div>
         <div class="sum-value">14</div>
-        <div class="sum-detail">全施設 active</div>
+        <div class="sum-detail">7日間平均: <strong style="color:#1a8a4a">95.9%</strong></div>
       </div>
-      <div class="sum-box">
-        <div class="sum-label">7日間平均稼働率</div>
-        <div class="sum-value" style="color:#1a8a4a">95.9%</div>
-        <div class="sum-detail">予約 94泊 / 空室 4泊</div>
-      </div>
-      <div class="sum-box">
-        <div class="sum-label">30日間平均稼働率</div>
-        <div class="sum-value" style="color:#d4790e">87.9%</div>
-        <div class="sum-detail">予約 369泊 / 空室 51泊</div>
-      </div>
-      <div class="sum-box">
-        <div class="sum-label">満室施設</div>
-        <div class="sum-value" style="color:var(--green)">0</div>
-        <div class="sum-detail">14施設中</div>
-      </div>
+      
+    <div class="sum-box">
+      <div class="sum-label">4月稼働率</div>
+      <div class="sum-value" style="color:#d4790e">88.6%</div>
+      <div class="sum-detail">予約 310泊 / 空室 40泊</div>
+    </div>
+    <div class="sum-box">
+      <div class="sum-label">5月稼働率</div>
+      <div class="sum-value" style="color:#d4790e">70.3%</div>
+      <div class="sum-detail">予約 305泊 / 空室 129泊</div>
+    </div>
+    <div class="sum-box">
+      <div class="sum-label">6月稼働率</div>
+      <div class="sum-value" style="color:#c0392b">3.6%</div>
+      <div class="sum-detail">予約 2泊 / 空室 54泊</div>
+    </div>
     </div>
   </div>
 
   <!-- 注目ポイント -->
   <div class="card">
     <div class="section-title">注目ポイント・アラート</div>
-    <div style="margin-bottom:12px;"><strong>⚠️ 空室集中日</strong><ul style="margin:6px 0 0 20px;font-size:12px;color:var(--text2);"><li><strong>05/05(火)</strong> — 7施設が空室</li><li><strong>04/29(水)</strong> — 6施設が空室</li><li><strong>04/30(木)</strong> — 5施設が空室</li><li><strong>04/21(火)</strong> — 4施設が空室</li><li><strong>04/16(木)</strong> — 3施設が空室</li></ul></div><div><strong>🔴 要対策施設</strong><ul style="margin:6px 0 0 20px;font-size:12px;color:var(--text2);"><li><strong>COCON B棟</strong> — 稼働率 66.7%（空室10日）</li><li><strong>COCON W棟</strong> — 稼働率 73.3%（空室8日）</li><li><strong>彩02 Forestella02</strong> — 稼働率 76.7%（空室7日）</li></ul></div>
+    <div style="margin-bottom:12px;"><strong>⚠️ 空室集中日</strong><ul style="margin:6px 0 0 20px;font-size:12px;color:var(--text2);"><li><strong>06/03(水)</strong> — 14施設が空室</li><li><strong>06/04(木)</strong> — 14施設が空室</li><li><strong>06/01(月)</strong> — 13施設が空室</li><li><strong>06/02(火)</strong> — 13施設が空室</li><li><strong>05/31(日)</strong> — 11施設が空室</li><li><strong>05/06(水)</strong> — 10施設が空室</li><li><strong>05/15(金)</strong> — 7施設が空室</li><li><strong>05/23(土)</strong> — 7施設が空室</li></ul></div><div><strong>🔴 要対策施設</strong><ul style="margin:6px 0 0 20px;font-size:12px;color:var(--text2);"><li><strong>COCON B棟</strong> — 全期間稼働率 45.0%（空室33日）</li><li><strong>COCON W棟</strong> — 全期間稼働率 55.0%（空室27日）</li><li><strong>彩02 Forestella02</strong> — 全期間稼働率 61.7%（空室23日）</li><li><strong>彩01 Forestella01</strong> — 全期間稼働率 63.3%（空室22日）</li><li><strong>LABO(ZEKKEI)</strong> — 全期間稼働率 70.0%（空室18日）</li><li><strong>将show</strong> — 全期間稼働率 70.0%（空室18日）</li></ul></div>
     <div class="tag-legend">
       <div class="tag-legend-item"><div class="tag-legend-dot tag-urgent"></div>3日以内</div>
       <div class="tag-legend-item"><div class="tag-legend-dot tag-soon"></div>4〜7日</div>
@@ -120,18 +124,17 @@ body{font-family:'Helvetica Neue',Arial,'Hiragino Sans','Yu Gothic',sans-serif;b
     </div>
   </div>
 
-  <!-- 施設一覧テーブル -->
+  <!-- テーブル -->
   <div class="card">
     <div class="section-title">施設別稼働率一覧（稼働率低い順）</div>
+    <div style="overflow-x:auto;">
     <table class="data-table">
       <thead>
         <tr>
           <th>施設名</th>
           <th class="th-right">7日間</th>
-          <th class="th-right">予約/7日</th>
-          <th class="th-right">30日間</th>
-          <th class="th-right">予約/30日</th>
-          <th class="th-right">空室</th>
+          <th class="th-right">4月</th><th class="th-right">空室</th><th class="th-right">5月</th><th class="th-right">空室</th><th class="th-right">6月</th><th class="th-right">空室</th>
+          <th class="th-right">総空室</th>
         </tr>
       </thead>
       <tbody>
@@ -139,557 +142,631 @@ body{font-family:'Helvetica Neue',Arial,'Hiragino Sans','Yu Gothic',sans-serif;b
     <tr class="row-alert">
       <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">COCON B棟</a><span class="badge-warn">要注意</span></td>
       <td class="td-num" style="color:#1a8a4a">100.0%</td>
-      <td class="td-num">7/7</td>
-      <td class="td-num" style="color:#c0392b">66.7%</td>
-      <td class="td-num">20/30</td>
-      <td class="td-num" style="color:var(--red)">10</td>
+      <td class="td-num" style="color:#c0392b">60.0%</td><td class="td-num">10</td><td class="td-num" style="color:#c0392b">38.7%</td><td class="td-num">19</td><td class="td-num" style="color:#c0392b">0.0%</td><td class="td-num">4</td>
+      <td class="td-num" style="color:var(--red)">33</td>
     </tr>
     <tr class="row-alert">
       <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">COCON W棟</a><span class="badge-warn">要注意</span></td>
       <td class="td-num" style="color:#d4790e">85.7%</td>
-      <td class="td-num">6/7</td>
-      <td class="td-num" style="color:#d4790e">73.3%</td>
-      <td class="td-num">22/30</td>
-      <td class="td-num" style="color:var(--red)">8</td>
+      <td class="td-num" style="color:#d4790e">72.0%</td><td class="td-num">7</td><td class="td-num" style="color:#c0392b">48.4%</td><td class="td-num">16</td><td class="td-num" style="color:#c0392b">0.0%</td><td class="td-num">4</td>
+      <td class="td-num" style="color:var(--red)">27</td>
     </tr>
     <tr class="row-alert">
       <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">彩02 Forestella02</a><span class="badge-warn">要注意</span></td>
       <td class="td-num" style="color:#d4790e">85.7%</td>
-      <td class="td-num">6/7</td>
-      <td class="td-num" style="color:#d4790e">76.7%</td>
-      <td class="td-num">23/30</td>
-      <td class="td-num" style="color:var(--red)">7</td>
+      <td class="td-num" style="color:#d4790e">84.0%</td><td class="td-num">4</td><td class="td-num" style="color:#c0392b">51.6%</td><td class="td-num">15</td><td class="td-num" style="color:#c0392b">0.0%</td><td class="td-num">4</td>
+      <td class="td-num" style="color:var(--red)">23</td>
     </tr>
-    <tr>
-      <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">彩01 Forestella01</a></td>
+    <tr class="row-alert">
+      <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">彩01 Forestella01</a><span class="badge-warn">要注意</span></td>
       <td class="td-num" style="color:#d4790e">85.7%</td>
-      <td class="td-num">6/7</td>
-      <td class="td-num" style="color:#d4790e">80.0%</td>
-      <td class="td-num">24/30</td>
-      <td class="td-num" style="color:var(--red)">6</td>
+      <td class="td-num" style="color:#d4790e">80.0%</td><td class="td-num">5</td><td class="td-num" style="color:#c0392b">58.1%</td><td class="td-num">13</td><td class="td-num" style="color:#c0392b">0.0%</td><td class="td-num">4</td>
+      <td class="td-num" style="color:var(--red)">22</td>
     </tr>
-    <tr>
-      <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">将show</a></td>
+    <tr class="row-alert">
+      <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">LABO(ZEKKEI)</a><span class="badge-warn">要注意</span></td>
       <td class="td-num" style="color:#1a8a4a">100.0%</td>
-      <td class="td-num">7/7</td>
-      <td class="td-num" style="color:#d4790e">83.3%</td>
-      <td class="td-num">25/30</td>
-      <td class="td-num" style="color:var(--red)">5</td>
+      <td class="td-num" style="color:#1a8a4a">96.0%</td><td class="td-num">1</td><td class="td-num" style="color:#c0392b">58.1%</td><td class="td-num">13</td><td class="td-num" style="color:#c0392b">0.0%</td><td class="td-num">4</td>
+      <td class="td-num" style="color:var(--red)">18</td>
+    </tr>
+    <tr class="row-alert">
+      <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">将show</a><span class="badge-warn">要注意</span></td>
+      <td class="td-num" style="color:#1a8a4a">100.0%</td>
+      <td class="td-num" style="color:#d4790e">80.0%</td><td class="td-num">5</td><td class="td-num" style="color:#d4790e">71.0%</td><td class="td-num">9</td><td class="td-num" style="color:#c0392b">0.0%</td><td class="td-num">4</td>
+      <td class="td-num" style="color:var(--red)">18</td>
     </tr>
     <tr>
       <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">美麓荘/Mirokusou</a></td>
       <td class="td-num" style="color:#d4790e">85.7%</td>
-      <td class="td-num">6/7</td>
-      <td class="td-num" style="color:#1a8a4a">90.0%</td>
-      <td class="td-num">27/30</td>
-      <td class="td-num" style="color:var(--text)">3</td>
-    </tr>
-    <tr>
-      <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">KAGO 1st Floor</a></td>
-      <td class="td-num" style="color:#1a8a4a">100.0%</td>
-      <td class="td-num">7/7</td>
-      <td class="td-num" style="color:#1a8a4a">93.3%</td>
-      <td class="td-num">28/30</td>
-      <td class="td-num" style="color:var(--text)">2</td>
+      <td class="td-num" style="color:#d4790e">88.0%</td><td class="td-num">3</td><td class="td-num" style="color:#d4790e">74.2%</td><td class="td-num">8</td><td class="td-num" style="color:#c0392b">0.0%</td><td class="td-num">4</td>
+      <td class="td-num" style="color:var(--red)">15</td>
     </tr>
     <tr>
       <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">ZAWA</a></td>
       <td class="td-num" style="color:#1a8a4a">100.0%</td>
-      <td class="td-num">7/7</td>
-      <td class="td-num" style="color:#1a8a4a">93.3%</td>
-      <td class="td-num">28/30</td>
-      <td class="td-num" style="color:var(--text)">2</td>
-    </tr>
-    <tr>
-      <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">LABO(ZEKKEI)</a></td>
-      <td class="td-num" style="color:#1a8a4a">100.0%</td>
-      <td class="td-num">7/7</td>
-      <td class="td-num" style="color:#1a8a4a">93.3%</td>
-      <td class="td-num">28/30</td>
-      <td class="td-num" style="color:var(--text)">2</td>
+      <td class="td-num" style="color:#1a8a4a">96.0%</td><td class="td-num">1</td><td class="td-num" style="color:#d4790e">74.2%</td><td class="td-num">8</td><td class="td-num" style="color:#c0392b">0.0%</td><td class="td-num">4</td>
+      <td class="td-num" style="color:var(--red)">13</td>
     </tr>
     <tr>
       <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">神蔵/Kagura</a></td>
       <td class="td-num" style="color:#1a8a4a">100.0%</td>
-      <td class="td-num">7/7</td>
-      <td class="td-num" style="color:#1a8a4a">93.3%</td>
-      <td class="td-num">28/30</td>
-      <td class="td-num" style="color:var(--text)">2</td>
-    </tr>
-    <tr>
-      <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">KAGO 2nd Floor</a></td>
-      <td class="td-num" style="color:#1a8a4a">100.0%</td>
-      <td class="td-num">7/7</td>
-      <td class="td-num" style="color:#1a8a4a">96.7%</td>
-      <td class="td-num">29/30</td>
-      <td class="td-num" style="color:var(--text)">1</td>
+      <td class="td-num" style="color:#1a8a4a">96.0%</td><td class="td-num">1</td><td class="td-num" style="color:#c0392b">67.7%</td><td class="td-num">10</td><td class="td-num" style="color:#c0392b">50.0%</td><td class="td-num">2</td>
+      <td class="td-num" style="color:var(--red)">13</td>
     </tr>
     <tr>
       <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">NATAN</a></td>
       <td class="td-num" style="color:#1a8a4a">100.0%</td>
-      <td class="td-num">7/7</td>
-      <td class="td-num" style="color:#1a8a4a">96.7%</td>
-      <td class="td-num">29/30</td>
-      <td class="td-num" style="color:var(--text)">1</td>
+      <td class="td-num" style="color:#1a8a4a">100.0%</td><td class="td-num">0</td><td class="td-num" style="color:#d4790e">83.9%</td><td class="td-num">5</td><td class="td-num" style="color:#c0392b">0.0%</td><td class="td-num">4</td>
+      <td class="td-num" style="color:var(--text)">9</td>
     </tr>
     <tr>
       <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">Persimmon A</a></td>
       <td class="td-num" style="color:#1a8a4a">100.0%</td>
-      <td class="td-num">7/7</td>
-      <td class="td-num" style="color:#1a8a4a">96.7%</td>
-      <td class="td-num">29/30</td>
-      <td class="td-num" style="color:var(--text)">1</td>
+      <td class="td-num" style="color:#1a8a4a">100.0%</td><td class="td-num">0</td><td class="td-num" style="color:#d4790e">83.9%</td><td class="td-num">5</td><td class="td-num" style="color:#c0392b">0.0%</td><td class="td-num">4</td>
+      <td class="td-num" style="color:var(--text)">9</td>
+    </tr>
+    <tr>
+      <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">KAGO 1st Floor</a></td>
+      <td class="td-num" style="color:#1a8a4a">100.0%</td>
+      <td class="td-num" style="color:#1a8a4a">96.0%</td><td class="td-num">1</td><td class="td-num" style="color:#1a8a4a">90.3%</td><td class="td-num">3</td><td class="td-num" style="color:#c0392b">0.0%</td><td class="td-num">4</td>
+      <td class="td-num" style="color:var(--text)">8</td>
+    </tr>
+    <tr>
+      <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">KAGO 2nd Floor</a></td>
+      <td class="td-num" style="color:#1a8a4a">100.0%</td>
+      <td class="td-num" style="color:#1a8a4a">96.0%</td><td class="td-num">1</td><td class="td-num" style="color:#1a8a4a">90.3%</td><td class="td-num">3</td><td class="td-num" style="color:#c0392b">0.0%</td><td class="td-num">4</td>
+      <td class="td-num" style="color:var(--text)">8</td>
     </tr>
     <tr>
       <td class="td-name"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">Persimmon B</a></td>
       <td class="td-num" style="color:#1a8a4a">100.0%</td>
-      <td class="td-num">7/7</td>
-      <td class="td-num" style="color:#1a8a4a">96.7%</td>
-      <td class="td-num">29/30</td>
-      <td class="td-num" style="color:var(--text)">1</td>
+      <td class="td-num" style="color:#1a8a4a">96.0%</td><td class="td-num">1</td><td class="td-num" style="color:#1a8a4a">93.5%</td><td class="td-num">2</td><td class="td-num" style="color:#c0392b">0.0%</td><td class="td-num">4</td>
+      <td class="td-num" style="color:var(--text)">7</td>
     </tr>
       </tbody>
       <tfoot>
         <tr>
           <td>全体平均</td>
           <td class="td-num" style="color:#1a8a4a">95.9%</td>
-          <td class="td-num">94/98</td>
-          <td class="td-num" style="color:#d4790e">87.9%</td>
-          <td class="td-num">369/420</td>
-          <td class="td-num" style="color:var(--red)">51</td>
+          <td class="td-num" style="color:#d4790e">88.6%</td><td class="td-num">40</td><td class="td-num" style="color:#d4790e">70.3%</td><td class="td-num">129</td><td class="td-num" style="color:#c0392b">3.6%</td><td class="td-num">54</td>
+          <td class="td-num" style="color:var(--red)">223</td>
         </tr>
       </tfoot>
     </table>
+    </div>
   </div>
 
   <!-- 施設カード -->
   <div class="card">
-    <div class="section-title">施設別詳細（空室日カレンダー付き）</div>
+    <div class="section-title">施設別詳細（月別空室カレンダー）</div>
     <div class="fac-grid">
       
     <div class="fac-card fac-alert">
       <div class="fac-top">
         <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">COCON B棟</a></div>
-        <div style="font-size:11px;color:var(--text3);">🔴 30日間</div>
+        <div style="font-size:11px;color:var(--text3);">🔴 全期間 45.0%</div>
       </div>
       <div class="three-months">
         <div class="m-col">
-          <div class="m-label">7日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:100.0%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">100.0%</div>
-          <div class="m-rev">7/7泊</div>
+          <div class="m-label">4月</div>
+          <div class="m-bar"><div class="m-fill" style="width:60.0%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">60.0%</div>
+          <div class="m-rev">15/25泊 / 空室10</div>
         </div>
         <div class="m-col">
-          <div class="m-label">30日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:66.7%;background:#c0392b"></div></div>
-          <div class="m-rate" style="color:#c0392b">66.7%</div>
-          <div class="m-rev">20/30泊</div>
+          <div class="m-label">5月</div>
+          <div class="m-bar"><div class="m-fill" style="width:38.7%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">38.7%</div>
+          <div class="m-rev">12/31泊 / 空室19</div>
         </div>
         <div class="m-col">
-          <div class="m-label">空室数</div>
-          <div class="m-rate" style="color:var(--red)">10</div>
-          <div class="m-rev">日</div>
-        </div>
-      </div>
-      
-        <div class="vacancy-section">
-          <div class="vac-header">空室日（10日）</div>
-          <div class="vac-tags"><span class="vtag tag-normal">04/16(木)</span><span class="vtag tag-normal">04/17(金)</span><span class="vtag tag-normal">04/19(日) [休]</span><span class="vtag tag-normal">04/20(月)</span><span class="vtag tag-far">04/24(金)</span><span class="vtag tag-far">04/26(日) [休]</span><span class="vtag tag-far">04/27(月)</span><span class="vtag tag-far">04/28(火)</span><span class="vtag tag-far">04/29(水)</span><span class="vtag tag-far">04/30(木)</span></div>
-        </div>
+          <div class="m-label">6月</div>
+          <div class="m-bar"><div class="m-fill" style="width:0.0%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">0.0%</div>
+          <div class="m-rev">0/4泊 / 空室4</div>
+        </div></div>
+      <div class="vacancy-section"><div class="vac-header">空室日詳細（33日）</div>
+            <div class="vac-row">
+              <span class="vac-month">4月<span class="vac-count">（空室10日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-normal">04/16(木)</span><span class="vtag tag-normal">04/17(金)</span><span class="vtag tag-normal">04/19(日) [休]</span><span class="vtag tag-normal">04/20(月)</span><span class="vtag tag-far">04/24(金)</span><span class="vtag tag-far">04/26(日) [休]</span><span class="vtag tag-far">04/27(月)</span><span class="vtag tag-far">04/28(火)</span><span class="vtag tag-far">04/29(水)</span><span class="vtag tag-far">04/30(木)</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">5月<span class="vac-count">（空室19日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">05/06(水)</span><span class="vtag tag-far">05/10(日) [休]</span><span class="vtag tag-far">05/11(月)</span><span class="vtag tag-far">05/12(火)</span><span class="vtag tag-far">05/13(水)</span><span class="vtag tag-far">05/14(木)</span><span class="vtag tag-far">05/15(金)</span><span class="vtag tag-far">05/17(日) [休]</span><span class="vtag tag-far">05/18(月)</span><span class="vtag tag-far">05/19(火)</span><span class="vtag tag-far">05/20(水)</span><span class="vtag tag-far">05/21(木)</span><span class="vtag tag-far">05/22(金)</span><span class="vtag tag-far">05/23(土) [休]</span><span class="vtag tag-far">05/26(火)</span><span class="vtag tag-far">05/27(水)</span><span class="vtag tag-far">05/29(金)</span><span class="vtag tag-far">05/30(土) [休]</span><span class="vtag tag-far">05/31(日) [休]</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">6月<span class="vac-count">（空室4日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">06/01(月)</span><span class="vtag tag-far">06/02(火)</span><span class="vtag tag-far">06/03(水)</span><span class="vtag tag-far">06/04(木)</span></div>
+            </div></div>
     </div>
     <div class="fac-card fac-alert">
       <div class="fac-top">
         <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">COCON W棟</a></div>
-        <div style="font-size:11px;color:var(--text3);">🟡 30日間</div>
+        <div style="font-size:11px;color:var(--text3);">🔴 全期間 55.0%</div>
       </div>
       <div class="three-months">
         <div class="m-col">
-          <div class="m-label">7日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:85.7%;background:#d4790e"></div></div>
-          <div class="m-rate" style="color:#d4790e">85.7%</div>
-          <div class="m-rev">6/7泊</div>
+          <div class="m-label">4月</div>
+          <div class="m-bar"><div class="m-fill" style="width:72.0%;background:#d4790e"></div></div>
+          <div class="m-rate" style="color:#d4790e">72.0%</div>
+          <div class="m-rev">18/25泊 / 空室7</div>
         </div>
         <div class="m-col">
-          <div class="m-label">30日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:73.3%;background:#d4790e"></div></div>
-          <div class="m-rate" style="color:#d4790e">73.3%</div>
-          <div class="m-rev">22/30泊</div>
+          <div class="m-label">5月</div>
+          <div class="m-bar"><div class="m-fill" style="width:48.4%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">48.4%</div>
+          <div class="m-rev">15/31泊 / 空室16</div>
         </div>
         <div class="m-col">
-          <div class="m-label">空室数</div>
-          <div class="m-rate" style="color:var(--red)">8</div>
-          <div class="m-rev">日</div>
-        </div>
-      </div>
-      
-        <div class="vacancy-section">
-          <div class="vac-header">空室日（8日）</div>
-          <div class="vac-tags"><span class="vtag tag-urgent">04/09(木)</span><span class="vtag tag-normal">04/16(木)</span><span class="vtag tag-far">04/21(火)</span><span class="vtag tag-far">04/22(水)</span><span class="vtag tag-far">04/28(火)</span><span class="vtag tag-far">04/29(水)</span><span class="vtag tag-far">04/30(木)</span><span class="vtag tag-far">05/01(金)</span></div>
-        </div>
+          <div class="m-label">6月</div>
+          <div class="m-bar"><div class="m-fill" style="width:0.0%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">0.0%</div>
+          <div class="m-rev">0/4泊 / 空室4</div>
+        </div></div>
+      <div class="vacancy-section"><div class="vac-header">空室日詳細（27日）</div>
+            <div class="vac-row">
+              <span class="vac-month">4月<span class="vac-count">（空室7日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-urgent">04/09(木)</span><span class="vtag tag-normal">04/16(木)</span><span class="vtag tag-far">04/21(火)</span><span class="vtag tag-far">04/22(水)</span><span class="vtag tag-far">04/28(火)</span><span class="vtag tag-far">04/29(水)</span><span class="vtag tag-far">04/30(木)</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">5月<span class="vac-count">（空室16日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">05/01(金)</span><span class="vtag tag-far">05/06(水)</span><span class="vtag tag-far">05/07(木)</span><span class="vtag tag-far">05/08(金)</span><span class="vtag tag-far">05/09(土) [休]</span><span class="vtag tag-far">05/10(日) [休]</span><span class="vtag tag-far">05/13(水)</span><span class="vtag tag-far">05/14(木)</span><span class="vtag tag-far">05/15(金)</span><span class="vtag tag-far">05/16(土) [休]</span><span class="vtag tag-far">05/21(木)</span><span class="vtag tag-far">05/22(金)</span><span class="vtag tag-far">05/23(土) [休]</span><span class="vtag tag-far">05/29(金)</span><span class="vtag tag-far">05/30(土) [休]</span><span class="vtag tag-far">05/31(日) [休]</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">6月<span class="vac-count">（空室4日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">06/01(月)</span><span class="vtag tag-far">06/02(火)</span><span class="vtag tag-far">06/03(水)</span><span class="vtag tag-far">06/04(木)</span></div>
+            </div></div>
     </div>
     <div class="fac-card fac-alert">
       <div class="fac-top">
         <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">彩02 Forestella02</a></div>
-        <div style="font-size:11px;color:var(--text3);">🟡 30日間</div>
+        <div style="font-size:11px;color:var(--text3);">🔴 全期間 61.7%</div>
       </div>
       <div class="three-months">
         <div class="m-col">
-          <div class="m-label">7日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:85.7%;background:#d4790e"></div></div>
-          <div class="m-rate" style="color:#d4790e">85.7%</div>
-          <div class="m-rev">6/7泊</div>
+          <div class="m-label">4月</div>
+          <div class="m-bar"><div class="m-fill" style="width:84.0%;background:#d4790e"></div></div>
+          <div class="m-rate" style="color:#d4790e">84.0%</div>
+          <div class="m-rev">21/25泊 / 空室4</div>
         </div>
         <div class="m-col">
-          <div class="m-label">30日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:76.7%;background:#d4790e"></div></div>
-          <div class="m-rate" style="color:#d4790e">76.7%</div>
-          <div class="m-rev">23/30泊</div>
+          <div class="m-label">5月</div>
+          <div class="m-bar"><div class="m-fill" style="width:51.6%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">51.6%</div>
+          <div class="m-rev">16/31泊 / 空室15</div>
         </div>
         <div class="m-col">
-          <div class="m-label">空室数</div>
-          <div class="m-rate" style="color:var(--red)">7</div>
-          <div class="m-rev">日</div>
-        </div>
-      </div>
-      
-        <div class="vacancy-section">
-          <div class="vac-header">空室日（7日）</div>
-          <div class="vac-tags"><span class="vtag tag-urgent">04/09(木)</span><span class="vtag tag-far">04/21(火)</span><span class="vtag tag-far">04/22(水)</span><span class="vtag tag-far">04/30(木)</span><span class="vtag tag-far">05/01(金)</span><span class="vtag tag-far">05/02(土) [休]</span><span class="vtag tag-far">05/05(火)</span></div>
-        </div>
+          <div class="m-label">6月</div>
+          <div class="m-bar"><div class="m-fill" style="width:0.0%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">0.0%</div>
+          <div class="m-rev">0/4泊 / 空室4</div>
+        </div></div>
+      <div class="vacancy-section"><div class="vac-header">空室日詳細（23日）</div>
+            <div class="vac-row">
+              <span class="vac-month">4月<span class="vac-count">（空室4日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-urgent">04/09(木)</span><span class="vtag tag-far">04/21(火)</span><span class="vtag tag-far">04/22(水)</span><span class="vtag tag-far">04/30(木)</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">5月<span class="vac-count">（空室15日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">05/01(金)</span><span class="vtag tag-far">05/02(土) [休]</span><span class="vtag tag-far">05/05(火)</span><span class="vtag tag-far">05/06(水)</span><span class="vtag tag-far">05/07(木)</span><span class="vtag tag-far">05/12(火)</span><span class="vtag tag-far">05/17(日) [休]</span><span class="vtag tag-far">05/21(木)</span><span class="vtag tag-far">05/22(金)</span><span class="vtag tag-far">05/23(土) [休]</span><span class="vtag tag-far">05/27(水)</span><span class="vtag tag-far">05/28(木)</span><span class="vtag tag-far">05/29(金)</span><span class="vtag tag-far">05/30(土) [休]</span><span class="vtag tag-far">05/31(日) [休]</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">6月<span class="vac-count">（空室4日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">06/01(月)</span><span class="vtag tag-far">06/02(火)</span><span class="vtag tag-far">06/03(水)</span><span class="vtag tag-far">06/04(木)</span></div>
+            </div></div>
     </div>
-    <div class="fac-card">
+    <div class="fac-card fac-alert">
       <div class="fac-top">
         <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">彩01 Forestella01</a></div>
-        <div style="font-size:11px;color:var(--text3);">🟡 30日間</div>
+        <div style="font-size:11px;color:var(--text3);">🔴 全期間 63.3%</div>
       </div>
       <div class="three-months">
         <div class="m-col">
-          <div class="m-label">7日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:85.7%;background:#d4790e"></div></div>
-          <div class="m-rate" style="color:#d4790e">85.7%</div>
-          <div class="m-rev">6/7泊</div>
-        </div>
-        <div class="m-col">
-          <div class="m-label">30日間稼働率</div>
+          <div class="m-label">4月</div>
           <div class="m-bar"><div class="m-fill" style="width:80.0%;background:#d4790e"></div></div>
           <div class="m-rate" style="color:#d4790e">80.0%</div>
-          <div class="m-rev">24/30泊</div>
+          <div class="m-rev">20/25泊 / 空室5</div>
         </div>
         <div class="m-col">
-          <div class="m-label">空室数</div>
-          <div class="m-rate" style="color:var(--red)">6</div>
-          <div class="m-rev">日</div>
+          <div class="m-label">5月</div>
+          <div class="m-bar"><div class="m-fill" style="width:58.1%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">58.1%</div>
+          <div class="m-rev">18/31泊 / 空室13</div>
         </div>
-      </div>
-      
-        <div class="vacancy-section">
-          <div class="vac-header">空室日（6日）</div>
-          <div class="vac-tags"><span class="vtag tag-urgent">04/08(水)</span><span class="vtag tag-normal">04/16(木)</span><span class="vtag tag-far">04/21(火)</span><span class="vtag tag-far">04/22(水)</span><span class="vtag tag-far">04/27(月)</span><span class="vtag tag-far">05/01(金)</span></div>
-        </div>
+        <div class="m-col">
+          <div class="m-label">6月</div>
+          <div class="m-bar"><div class="m-fill" style="width:0.0%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">0.0%</div>
+          <div class="m-rev">0/4泊 / 空室4</div>
+        </div></div>
+      <div class="vacancy-section"><div class="vac-header">空室日詳細（22日）</div>
+            <div class="vac-row">
+              <span class="vac-month">4月<span class="vac-count">（空室5日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-urgent">04/08(水)</span><span class="vtag tag-normal">04/16(木)</span><span class="vtag tag-far">04/21(火)</span><span class="vtag tag-far">04/22(水)</span><span class="vtag tag-far">04/27(月)</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">5月<span class="vac-count">（空室13日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">05/01(金)</span><span class="vtag tag-far">05/06(水)</span><span class="vtag tag-far">05/07(木)</span><span class="vtag tag-far">05/10(日) [休]</span><span class="vtag tag-far">05/13(水)</span><span class="vtag tag-far">05/14(木)</span><span class="vtag tag-far">05/23(土) [休]</span><span class="vtag tag-far">05/24(日) [休]</span><span class="vtag tag-far">05/25(月)</span><span class="vtag tag-far">05/28(木)</span><span class="vtag tag-far">05/29(金)</span><span class="vtag tag-far">05/30(土) [休]</span><span class="vtag tag-far">05/31(日) [休]</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">6月<span class="vac-count">（空室4日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">06/01(月)</span><span class="vtag tag-far">06/02(火)</span><span class="vtag tag-far">06/03(水)</span><span class="vtag tag-far">06/04(木)</span></div>
+            </div></div>
     </div>
-    <div class="fac-card">
+    <div class="fac-card fac-alert">
       <div class="fac-top">
-        <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">将show</a></div>
-        <div style="font-size:11px;color:var(--text3);">🟡 30日間</div>
+        <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">LABO(ZEKKEI)</a></div>
+        <div style="font-size:11px;color:var(--text3);">🟡 全期間 70.0%</div>
       </div>
       <div class="three-months">
         <div class="m-col">
-          <div class="m-label">7日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:100.0%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">100.0%</div>
-          <div class="m-rev">7/7泊</div>
+          <div class="m-label">4月</div>
+          <div class="m-bar"><div class="m-fill" style="width:96.0%;background:#1a8a4a"></div></div>
+          <div class="m-rate" style="color:#1a8a4a">96.0%</div>
+          <div class="m-rev">24/25泊 / 空室1</div>
         </div>
         <div class="m-col">
-          <div class="m-label">30日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:83.3%;background:#d4790e"></div></div>
-          <div class="m-rate" style="color:#d4790e">83.3%</div>
-          <div class="m-rev">25/30泊</div>
+          <div class="m-label">5月</div>
+          <div class="m-bar"><div class="m-fill" style="width:58.1%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">58.1%</div>
+          <div class="m-rev">18/31泊 / 空室13</div>
         </div>
         <div class="m-col">
-          <div class="m-label">空室数</div>
-          <div class="m-rate" style="color:var(--red)">5</div>
-          <div class="m-rev">日</div>
-        </div>
+          <div class="m-label">6月</div>
+          <div class="m-bar"><div class="m-fill" style="width:0.0%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">0.0%</div>
+          <div class="m-rev">0/4泊 / 空室4</div>
+        </div></div>
+      <div class="vacancy-section"><div class="vac-header">空室日詳細（18日）</div>
+            <div class="vac-row">
+              <span class="vac-month">4月<span class="vac-count">（空室1日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">04/29(水)</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">5月<span class="vac-count">（空室13日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">05/05(火)</span><span class="vtag tag-far">05/10(日) [休]</span><span class="vtag tag-far">05/11(月)</span><span class="vtag tag-far">05/12(火)</span><span class="vtag tag-far">05/13(水)</span><span class="vtag tag-far">05/17(日) [休]</span><span class="vtag tag-far">05/22(金)</span><span class="vtag tag-far">05/23(土) [休]</span><span class="vtag tag-far">05/25(月)</span><span class="vtag tag-far">05/26(火)</span><span class="vtag tag-far">05/29(金)</span><span class="vtag tag-far">05/30(土) [休]</span><span class="vtag tag-far">05/31(日) [休]</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">6月<span class="vac-count">（空室4日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">06/01(月)</span><span class="vtag tag-far">06/02(火)</span><span class="vtag tag-far">06/03(水)</span><span class="vtag tag-far">06/04(木)</span></div>
+            </div></div>
+    </div>
+    <div class="fac-card fac-alert">
+      <div class="fac-top">
+        <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">将show</a></div>
+        <div style="font-size:11px;color:var(--text3);">🟡 全期間 70.0%</div>
       </div>
-      
-        <div class="vacancy-section">
-          <div class="vac-header">空室日（5日）</div>
-          <div class="vac-tags"><span class="vtag tag-normal">04/19(日) [休]</span><span class="vtag tag-normal">04/20(月)</span><span class="vtag tag-far">04/21(火)</span><span class="vtag tag-far">04/29(水)</span><span class="vtag tag-far">04/30(木)</span></div>
+      <div class="three-months">
+        <div class="m-col">
+          <div class="m-label">4月</div>
+          <div class="m-bar"><div class="m-fill" style="width:80.0%;background:#d4790e"></div></div>
+          <div class="m-rate" style="color:#d4790e">80.0%</div>
+          <div class="m-rev">20/25泊 / 空室5</div>
         </div>
+        <div class="m-col">
+          <div class="m-label">5月</div>
+          <div class="m-bar"><div class="m-fill" style="width:71.0%;background:#d4790e"></div></div>
+          <div class="m-rate" style="color:#d4790e">71.0%</div>
+          <div class="m-rev">22/31泊 / 空室9</div>
+        </div>
+        <div class="m-col">
+          <div class="m-label">6月</div>
+          <div class="m-bar"><div class="m-fill" style="width:0.0%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">0.0%</div>
+          <div class="m-rev">0/4泊 / 空室4</div>
+        </div></div>
+      <div class="vacancy-section"><div class="vac-header">空室日詳細（18日）</div>
+            <div class="vac-row">
+              <span class="vac-month">4月<span class="vac-count">（空室5日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-normal">04/19(日) [休]</span><span class="vtag tag-normal">04/20(月)</span><span class="vtag tag-far">04/21(火)</span><span class="vtag tag-far">04/29(水)</span><span class="vtag tag-far">04/30(木)</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">5月<span class="vac-count">（空室9日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">05/07(木)</span><span class="vtag tag-far">05/12(火)</span><span class="vtag tag-far">05/15(金)</span><span class="vtag tag-far">05/18(月)</span><span class="vtag tag-far">05/25(月)</span><span class="vtag tag-far">05/26(火)</span><span class="vtag tag-far">05/27(水)</span><span class="vtag tag-far">05/28(木)</span><span class="vtag tag-far">05/31(日) [休]</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">6月<span class="vac-count">（空室4日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">06/01(月)</span><span class="vtag tag-far">06/02(火)</span><span class="vtag tag-far">06/03(水)</span><span class="vtag tag-far">06/04(木)</span></div>
+            </div></div>
     </div>
     <div class="fac-card">
       <div class="fac-top">
         <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">美麓荘/Mirokusou</a></div>
-        <div style="font-size:11px;color:var(--text3);">🟢 30日間</div>
+        <div style="font-size:11px;color:var(--text3);">🟡 全期間 75.0%</div>
       </div>
       <div class="three-months">
         <div class="m-col">
-          <div class="m-label">7日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:85.7%;background:#d4790e"></div></div>
-          <div class="m-rate" style="color:#d4790e">85.7%</div>
-          <div class="m-rev">6/7泊</div>
+          <div class="m-label">4月</div>
+          <div class="m-bar"><div class="m-fill" style="width:88.0%;background:#d4790e"></div></div>
+          <div class="m-rate" style="color:#d4790e">88.0%</div>
+          <div class="m-rev">22/25泊 / 空室3</div>
         </div>
         <div class="m-col">
-          <div class="m-label">30日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:90.0%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">90.0%</div>
-          <div class="m-rev">27/30泊</div>
+          <div class="m-label">5月</div>
+          <div class="m-bar"><div class="m-fill" style="width:74.2%;background:#d4790e"></div></div>
+          <div class="m-rate" style="color:#d4790e">74.2%</div>
+          <div class="m-rev">23/31泊 / 空室8</div>
         </div>
         <div class="m-col">
-          <div class="m-label">空室数</div>
-          <div class="m-rate" style="color:var(--text)">3</div>
-          <div class="m-rev">日</div>
-        </div>
-      </div>
-      
-        <div class="vacancy-section">
-          <div class="vac-header">空室日（3日）</div>
-          <div class="vac-tags"><span class="vtag tag-urgent">04/08(水)</span><span class="vtag tag-far">04/23(木)</span><span class="vtag tag-far">04/29(水)</span></div>
-        </div>
-    </div>
-    <div class="fac-card">
-      <div class="fac-top">
-        <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">KAGO 1st Floor</a></div>
-        <div style="font-size:11px;color:var(--text3);">🟢 30日間</div>
-      </div>
-      <div class="three-months">
-        <div class="m-col">
-          <div class="m-label">7日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:100.0%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">100.0%</div>
-          <div class="m-rev">7/7泊</div>
-        </div>
-        <div class="m-col">
-          <div class="m-label">30日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:93.3%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">93.3%</div>
-          <div class="m-rev">28/30泊</div>
-        </div>
-        <div class="m-col">
-          <div class="m-label">空室数</div>
-          <div class="m-rate" style="color:var(--text)">2</div>
-          <div class="m-rev">日</div>
-        </div>
-      </div>
-      
-        <div class="vacancy-section">
-          <div class="vac-header">空室日（2日）</div>
-          <div class="vac-tags"><span class="vtag tag-normal">04/20(月)</span><span class="vtag tag-far">05/05(火)</span></div>
-        </div>
+          <div class="m-label">6月</div>
+          <div class="m-bar"><div class="m-fill" style="width:0.0%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">0.0%</div>
+          <div class="m-rev">0/4泊 / 空室4</div>
+        </div></div>
+      <div class="vacancy-section"><div class="vac-header">空室日詳細（15日）</div>
+            <div class="vac-row">
+              <span class="vac-month">4月<span class="vac-count">（空室3日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-urgent">04/08(水)</span><span class="vtag tag-far">04/23(木)</span><span class="vtag tag-far">04/29(水)</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">5月<span class="vac-count">（空室8日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">05/06(水)</span><span class="vtag tag-far">05/10(日) [休]</span><span class="vtag tag-far">05/15(金)</span><span class="vtag tag-far">05/18(月)</span><span class="vtag tag-far">05/24(日) [休]</span><span class="vtag tag-far">05/25(月)</span><span class="vtag tag-far">05/29(金)</span><span class="vtag tag-far">05/31(日) [休]</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">6月<span class="vac-count">（空室4日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">06/01(月)</span><span class="vtag tag-far">06/02(火)</span><span class="vtag tag-far">06/03(水)</span><span class="vtag tag-far">06/04(木)</span></div>
+            </div></div>
     </div>
     <div class="fac-card">
       <div class="fac-top">
         <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">ZAWA</a></div>
-        <div style="font-size:11px;color:var(--text3);">🟢 30日間</div>
+        <div style="font-size:11px;color:var(--text3);">🟡 全期間 78.3%</div>
       </div>
       <div class="three-months">
         <div class="m-col">
-          <div class="m-label">7日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:100.0%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">100.0%</div>
-          <div class="m-rev">7/7泊</div>
+          <div class="m-label">4月</div>
+          <div class="m-bar"><div class="m-fill" style="width:96.0%;background:#1a8a4a"></div></div>
+          <div class="m-rate" style="color:#1a8a4a">96.0%</div>
+          <div class="m-rev">24/25泊 / 空室1</div>
         </div>
         <div class="m-col">
-          <div class="m-label">30日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:93.3%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">93.3%</div>
-          <div class="m-rev">28/30泊</div>
+          <div class="m-label">5月</div>
+          <div class="m-bar"><div class="m-fill" style="width:74.2%;background:#d4790e"></div></div>
+          <div class="m-rate" style="color:#d4790e">74.2%</div>
+          <div class="m-rev">23/31泊 / 空室8</div>
         </div>
         <div class="m-col">
-          <div class="m-label">空室数</div>
-          <div class="m-rate" style="color:var(--text)">2</div>
-          <div class="m-rev">日</div>
-        </div>
-      </div>
-      
-        <div class="vacancy-section">
-          <div class="vac-header">空室日（2日）</div>
-          <div class="vac-tags"><span class="vtag tag-far">04/30(木)</span><span class="vtag tag-far">05/05(火)</span></div>
-        </div>
-    </div>
-    <div class="fac-card">
-      <div class="fac-top">
-        <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">LABO(ZEKKEI)</a></div>
-        <div style="font-size:11px;color:var(--text3);">🟢 30日間</div>
-      </div>
-      <div class="three-months">
-        <div class="m-col">
-          <div class="m-label">7日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:100.0%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">100.0%</div>
-          <div class="m-rev">7/7泊</div>
-        </div>
-        <div class="m-col">
-          <div class="m-label">30日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:93.3%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">93.3%</div>
-          <div class="m-rev">28/30泊</div>
-        </div>
-        <div class="m-col">
-          <div class="m-label">空室数</div>
-          <div class="m-rate" style="color:var(--text)">2</div>
-          <div class="m-rev">日</div>
-        </div>
-      </div>
-      
-        <div class="vacancy-section">
-          <div class="vac-header">空室日（2日）</div>
-          <div class="vac-tags"><span class="vtag tag-far">04/29(水)</span><span class="vtag tag-far">05/05(火)</span></div>
-        </div>
+          <div class="m-label">6月</div>
+          <div class="m-bar"><div class="m-fill" style="width:0.0%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">0.0%</div>
+          <div class="m-rev">0/4泊 / 空室4</div>
+        </div></div>
+      <div class="vacancy-section"><div class="vac-header">空室日詳細（13日）</div>
+            <div class="vac-row">
+              <span class="vac-month">4月<span class="vac-count">（空室1日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">04/30(木)</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">5月<span class="vac-count">（空室8日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">05/05(火)</span><span class="vtag tag-far">05/06(水)</span><span class="vtag tag-far">05/07(木)</span><span class="vtag tag-far">05/13(水)</span><span class="vtag tag-far">05/14(木)</span><span class="vtag tag-far">05/21(木)</span><span class="vtag tag-far">05/26(火)</span><span class="vtag tag-far">05/27(水)</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">6月<span class="vac-count">（空室4日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">06/01(月)</span><span class="vtag tag-far">06/02(火)</span><span class="vtag tag-far">06/03(水)</span><span class="vtag tag-far">06/04(木)</span></div>
+            </div></div>
     </div>
     <div class="fac-card">
       <div class="fac-top">
         <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">神蔵/Kagura</a></div>
-        <div style="font-size:11px;color:var(--text3);">🟢 30日間</div>
+        <div style="font-size:11px;color:var(--text3);">🟡 全期間 78.3%</div>
       </div>
       <div class="three-months">
         <div class="m-col">
-          <div class="m-label">7日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:100.0%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">100.0%</div>
-          <div class="m-rev">7/7泊</div>
+          <div class="m-label">4月</div>
+          <div class="m-bar"><div class="m-fill" style="width:96.0%;background:#1a8a4a"></div></div>
+          <div class="m-rate" style="color:#1a8a4a">96.0%</div>
+          <div class="m-rev">24/25泊 / 空室1</div>
         </div>
         <div class="m-col">
-          <div class="m-label">30日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:93.3%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">93.3%</div>
-          <div class="m-rev">28/30泊</div>
+          <div class="m-label">5月</div>
+          <div class="m-bar"><div class="m-fill" style="width:67.7%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">67.7%</div>
+          <div class="m-rev">21/31泊 / 空室10</div>
         </div>
         <div class="m-col">
-          <div class="m-label">空室数</div>
-          <div class="m-rate" style="color:var(--text)">2</div>
-          <div class="m-rev">日</div>
-        </div>
-      </div>
-      
-        <div class="vacancy-section">
-          <div class="vac-header">空室日（2日）</div>
-          <div class="vac-tags"><span class="vtag tag-far">04/29(水)</span><span class="vtag tag-far">05/05(火)</span></div>
-        </div>
-    </div>
-    <div class="fac-card">
-      <div class="fac-top">
-        <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">KAGO 2nd Floor</a></div>
-        <div style="font-size:11px;color:var(--text3);">🟢 30日間</div>
-      </div>
-      <div class="three-months">
-        <div class="m-col">
-          <div class="m-label">7日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:100.0%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">100.0%</div>
-          <div class="m-rev">7/7泊</div>
-        </div>
-        <div class="m-col">
-          <div class="m-label">30日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:96.7%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">96.7%</div>
-          <div class="m-rev">29/30泊</div>
-        </div>
-        <div class="m-col">
-          <div class="m-label">空室数</div>
-          <div class="m-rate" style="color:var(--text)">1</div>
-          <div class="m-rev">日</div>
-        </div>
-      </div>
-      
-        <div class="vacancy-section">
-          <div class="vac-header">空室日（1日）</div>
-          <div class="vac-tags"><span class="vtag tag-far">04/27(月)</span></div>
-        </div>
+          <div class="m-label">6月</div>
+          <div class="m-bar"><div class="m-fill" style="width:50.0%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">50.0%</div>
+          <div class="m-rev">2/4泊 / 空室2</div>
+        </div></div>
+      <div class="vacancy-section"><div class="vac-header">空室日詳細（13日）</div>
+            <div class="vac-row">
+              <span class="vac-month">4月<span class="vac-count">（空室1日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">04/29(水)</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">5月<span class="vac-count">（空室10日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">05/05(火)</span><span class="vtag tag-far">05/06(水)</span><span class="vtag tag-far">05/14(木)</span><span class="vtag tag-far">05/15(金)</span><span class="vtag tag-far">05/21(木)</span><span class="vtag tag-far">05/23(土) [休]</span><span class="vtag tag-far">05/26(火)</span><span class="vtag tag-far">05/27(水)</span><span class="vtag tag-far">05/28(木)</span><span class="vtag tag-far">05/31(日) [休]</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">6月<span class="vac-count">（空室2日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">06/03(水)</span><span class="vtag tag-far">06/04(木)</span></div>
+            </div></div>
     </div>
     <div class="fac-card">
       <div class="fac-top">
         <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">NATAN</a></div>
-        <div style="font-size:11px;color:var(--text3);">🟢 30日間</div>
+        <div style="font-size:11px;color:var(--text3);">🟡 全期間 85.0%</div>
       </div>
       <div class="three-months">
         <div class="m-col">
-          <div class="m-label">7日間稼働率</div>
+          <div class="m-label">4月</div>
           <div class="m-bar"><div class="m-fill" style="width:100.0%;background:#1a8a4a"></div></div>
           <div class="m-rate" style="color:#1a8a4a">100.0%</div>
-          <div class="m-rev">7/7泊</div>
+          <div class="m-rev">25/25泊 / 空室0</div>
         </div>
         <div class="m-col">
-          <div class="m-label">30日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:96.7%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">96.7%</div>
-          <div class="m-rev">29/30泊</div>
+          <div class="m-label">5月</div>
+          <div class="m-bar"><div class="m-fill" style="width:83.9%;background:#d4790e"></div></div>
+          <div class="m-rate" style="color:#d4790e">83.9%</div>
+          <div class="m-rev">26/31泊 / 空室5</div>
         </div>
         <div class="m-col">
-          <div class="m-label">空室数</div>
-          <div class="m-rate" style="color:var(--text)">1</div>
-          <div class="m-rev">日</div>
-        </div>
-      </div>
-      
-        <div class="vacancy-section">
-          <div class="vac-header">空室日（1日）</div>
-          <div class="vac-tags"><span class="vtag tag-far">05/05(火)</span></div>
-        </div>
+          <div class="m-label">6月</div>
+          <div class="m-bar"><div class="m-fill" style="width:0.0%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">0.0%</div>
+          <div class="m-rev">0/4泊 / 空室4</div>
+        </div></div>
+      <div class="vacancy-section"><div class="vac-header">空室日詳細（9日）</div>
+            <div class="vac-row">
+              <span class="vac-month">5月<span class="vac-count">（空室5日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">05/05(火)</span><span class="vtag tag-far">05/06(水)</span><span class="vtag tag-far">05/20(水)</span><span class="vtag tag-far">05/23(土) [休]</span><span class="vtag tag-far">05/25(月)</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">6月<span class="vac-count">（空室4日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">06/01(月)</span><span class="vtag tag-far">06/02(火)</span><span class="vtag tag-far">06/03(水)</span><span class="vtag tag-far">06/04(木)</span></div>
+            </div></div>
     </div>
     <div class="fac-card">
       <div class="fac-top">
         <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">Persimmon A</a></div>
-        <div style="font-size:11px;color:var(--text3);">🟢 30日間</div>
+        <div style="font-size:11px;color:var(--text3);">🟡 全期間 85.0%</div>
       </div>
       <div class="three-months">
         <div class="m-col">
-          <div class="m-label">7日間稼働率</div>
+          <div class="m-label">4月</div>
           <div class="m-bar"><div class="m-fill" style="width:100.0%;background:#1a8a4a"></div></div>
           <div class="m-rate" style="color:#1a8a4a">100.0%</div>
-          <div class="m-rev">7/7泊</div>
+          <div class="m-rev">25/25泊 / 空室0</div>
         </div>
         <div class="m-col">
-          <div class="m-label">30日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:96.7%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">96.7%</div>
-          <div class="m-rev">29/30泊</div>
+          <div class="m-label">5月</div>
+          <div class="m-bar"><div class="m-fill" style="width:83.9%;background:#d4790e"></div></div>
+          <div class="m-rate" style="color:#d4790e">83.9%</div>
+          <div class="m-rev">26/31泊 / 空室5</div>
         </div>
         <div class="m-col">
-          <div class="m-label">空室数</div>
-          <div class="m-rate" style="color:var(--text)">1</div>
-          <div class="m-rev">日</div>
-        </div>
+          <div class="m-label">6月</div>
+          <div class="m-bar"><div class="m-fill" style="width:0.0%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">0.0%</div>
+          <div class="m-rev">0/4泊 / 空室4</div>
+        </div></div>
+      <div class="vacancy-section"><div class="vac-header">空室日詳細（9日）</div>
+            <div class="vac-row">
+              <span class="vac-month">5月<span class="vac-count">（空室5日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">05/05(火)</span><span class="vtag tag-far">05/06(水)</span><span class="vtag tag-far">05/15(金)</span><span class="vtag tag-far">05/18(月)</span><span class="vtag tag-far">05/31(日) [休]</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">6月<span class="vac-count">（空室4日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">06/01(月)</span><span class="vtag tag-far">06/02(火)</span><span class="vtag tag-far">06/03(水)</span><span class="vtag tag-far">06/04(木)</span></div>
+            </div></div>
+    </div>
+    <div class="fac-card">
+      <div class="fac-top">
+        <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">KAGO 1st Floor</a></div>
+        <div style="font-size:11px;color:var(--text3);">🟡 全期間 86.7%</div>
       </div>
-      
-        <div class="vacancy-section">
-          <div class="vac-header">空室日（1日）</div>
-          <div class="vac-tags"><span class="vtag tag-far">05/05(火)</span></div>
+      <div class="three-months">
+        <div class="m-col">
+          <div class="m-label">4月</div>
+          <div class="m-bar"><div class="m-fill" style="width:96.0%;background:#1a8a4a"></div></div>
+          <div class="m-rate" style="color:#1a8a4a">96.0%</div>
+          <div class="m-rev">24/25泊 / 空室1</div>
         </div>
+        <div class="m-col">
+          <div class="m-label">5月</div>
+          <div class="m-bar"><div class="m-fill" style="width:90.3%;background:#1a8a4a"></div></div>
+          <div class="m-rate" style="color:#1a8a4a">90.3%</div>
+          <div class="m-rev">28/31泊 / 空室3</div>
+        </div>
+        <div class="m-col">
+          <div class="m-label">6月</div>
+          <div class="m-bar"><div class="m-fill" style="width:0.0%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">0.0%</div>
+          <div class="m-rev">0/4泊 / 空室4</div>
+        </div></div>
+      <div class="vacancy-section"><div class="vac-header">空室日詳細（8日）</div>
+            <div class="vac-row">
+              <span class="vac-month">4月<span class="vac-count">（空室1日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-normal">04/20(月)</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">5月<span class="vac-count">（空室3日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">05/05(火)</span><span class="vtag tag-far">05/06(水)</span><span class="vtag tag-far">05/31(日) [休]</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">6月<span class="vac-count">（空室4日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">06/01(月)</span><span class="vtag tag-far">06/02(火)</span><span class="vtag tag-far">06/03(水)</span><span class="vtag tag-far">06/04(木)</span></div>
+            </div></div>
+    </div>
+    <div class="fac-card">
+      <div class="fac-top">
+        <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">KAGO 2nd Floor</a></div>
+        <div style="font-size:11px;color:var(--text3);">🟡 全期間 86.7%</div>
+      </div>
+      <div class="three-months">
+        <div class="m-col">
+          <div class="m-label">4月</div>
+          <div class="m-bar"><div class="m-fill" style="width:96.0%;background:#1a8a4a"></div></div>
+          <div class="m-rate" style="color:#1a8a4a">96.0%</div>
+          <div class="m-rev">24/25泊 / 空室1</div>
+        </div>
+        <div class="m-col">
+          <div class="m-label">5月</div>
+          <div class="m-bar"><div class="m-fill" style="width:90.3%;background:#1a8a4a"></div></div>
+          <div class="m-rate" style="color:#1a8a4a">90.3%</div>
+          <div class="m-rev">28/31泊 / 空室3</div>
+        </div>
+        <div class="m-col">
+          <div class="m-label">6月</div>
+          <div class="m-bar"><div class="m-fill" style="width:0.0%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">0.0%</div>
+          <div class="m-rev">0/4泊 / 空室4</div>
+        </div></div>
+      <div class="vacancy-section"><div class="vac-header">空室日詳細（8日）</div>
+            <div class="vac-row">
+              <span class="vac-month">4月<span class="vac-count">（空室1日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">04/27(月)</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">5月<span class="vac-count">（空室3日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">05/11(月)</span><span class="vtag tag-far">05/16(土) [休]</span><span class="vtag tag-far">05/31(日) [休]</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">6月<span class="vac-count">（空室4日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">06/01(月)</span><span class="vtag tag-far">06/02(火)</span><span class="vtag tag-far">06/03(水)</span><span class="vtag tag-far">06/04(木)</span></div>
+            </div></div>
     </div>
     <div class="fac-card">
       <div class="fac-top">
         <div class="fname"><a href="https://pms.airhost.co/ja/pricing-management" target="_blank">Persimmon B</a></div>
-        <div style="font-size:11px;color:var(--text3);">🟢 30日間</div>
+        <div style="font-size:11px;color:var(--text3);">🟡 全期間 88.3%</div>
       </div>
       <div class="three-months">
         <div class="m-col">
-          <div class="m-label">7日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:100.0%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">100.0%</div>
-          <div class="m-rev">7/7泊</div>
+          <div class="m-label">4月</div>
+          <div class="m-bar"><div class="m-fill" style="width:96.0%;background:#1a8a4a"></div></div>
+          <div class="m-rate" style="color:#1a8a4a">96.0%</div>
+          <div class="m-rev">24/25泊 / 空室1</div>
         </div>
         <div class="m-col">
-          <div class="m-label">30日間稼働率</div>
-          <div class="m-bar"><div class="m-fill" style="width:96.7%;background:#1a8a4a"></div></div>
-          <div class="m-rate" style="color:#1a8a4a">96.7%</div>
-          <div class="m-rev">29/30泊</div>
+          <div class="m-label">5月</div>
+          <div class="m-bar"><div class="m-fill" style="width:93.5%;background:#1a8a4a"></div></div>
+          <div class="m-rate" style="color:#1a8a4a">93.5%</div>
+          <div class="m-rev">29/31泊 / 空室2</div>
         </div>
         <div class="m-col">
-          <div class="m-label">空室数</div>
-          <div class="m-rate" style="color:var(--text)">1</div>
-          <div class="m-rev">日</div>
-        </div>
-      </div>
-      
-        <div class="vacancy-section">
-          <div class="vac-header">空室日（1日）</div>
-          <div class="vac-tags"><span class="vtag tag-far">04/23(木)</span></div>
-        </div>
+          <div class="m-label">6月</div>
+          <div class="m-bar"><div class="m-fill" style="width:0.0%;background:#c0392b"></div></div>
+          <div class="m-rate" style="color:#c0392b">0.0%</div>
+          <div class="m-rev">0/4泊 / 空室4</div>
+        </div></div>
+      <div class="vacancy-section"><div class="vac-header">空室日詳細（7日）</div>
+            <div class="vac-row">
+              <span class="vac-month">4月<span class="vac-count">（空室1日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">04/23(木)</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">5月<span class="vac-count">（空室2日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">05/08(金)</span><span class="vtag tag-far">05/15(金)</span></div>
+            </div>
+            <div class="vac-row">
+              <span class="vac-month">6月<span class="vac-count">（空室4日）</span></span>
+              <div class="vac-tags"><span class="vtag tag-far">06/01(月)</span><span class="vtag tag-far">06/02(火)</span><span class="vtag tag-far">06/03(水)</span><span class="vtag tag-far">06/04(木)</span></div>
+            </div></div>
     </div>
     </div>
   </div>
 
 </div>
-
 </body></html>
