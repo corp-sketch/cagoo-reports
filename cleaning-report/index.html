@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>清掃報告 | CAGOO</title>
+<style>
+  :root {
+    --bg-top: #f5f3ee;
+    --bg-bot: #e8ecef;
+    --card: #ffffff;
+    --text: #1a1a1f;
+    --text-sub: #6b6b73;
+    --border: #e2e2e7;
+    --primary: #2a6df5;
+    --primary-dark: #1d5ae0;
+    --success: #2ecc71;
+    --success-dark: #27ae60;
+    --danger: #ff4d4f;
+    --notice-bg: #fffaed;
+    --notice-bar: #f5b400;
+    --notice-text: #5a4200;
+    --shadow-sm: 0 1px 3px rgba(30,30,40,0.06), 0 1px 2px rgba(30,30,40,0.04);
+    --shadow-md: 0 4px 16px rgba(30,30,40,0.08), 0 2px 4px rgba(30,30,40,0.04);
+    --shadow-btn: 0 4px 14px rgba(42,109,245,0.35);
+    --shadow-btn-success: 0 4px 14px rgba(46,204,113,0.35);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+    color: var(--text);
+    background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bot) 100%);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 0.01em;
+  }
+
+  /* プレビューツールバー（?dev=0で非表示） */
+  .preview-toolbar {
+    position: sticky; top: 0; z-index: 100;
+    background: #1d1d1f; color: #fff;
+    padding: 10px 14px;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 12px;
+  }
+  .preview-toolbar strong { font-size: 13px; }
+  .toggle { display: inline-flex; background: #3a3a3c; border-radius: 8px; padding: 3px; }
+  .toggle button { background: transparent; color: #ccc; border: none; padding: 5px 12px; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; }
+  .toggle button.active { background: var(--primary); color: #fff; }
+  .preview-toolbar select { padding: 5px 8px; font-size: 12px; border-radius: 6px; border: none; }
+  .preview-note { font-size: 11px; color: #999; margin-left: auto; }
+
+  .phone-frame { max-width: 480px; margin: 0 auto; min-height: 100vh; }
+  .phone-content { padding: 20px 18px 120px; }
+
+  /* ヘッダー */
+  .header { margin-bottom: 20px; }
+  .brand {
+    display: inline-block;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.22em;
+    color: var(--text-sub);
+    margin-bottom: 6px;
+  }
+  .page-title { font-size: 28px; font-weight: 800; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .property-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .property-name {
+    font-size: 17px; font-weight: 700; color: var(--text);
+  }
+  .phase-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 11px; border-radius: 999px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.02em;
+  }
+  .phase-badge.start { background: #e6efff; color: var(--primary); }
+  .phase-badge.end { background: #e6f8ee; color: var(--success-dark); }
+  .phase-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
+  .phase-badge.start::before { background: var(--primary); }
+  .phase-badge.end::before { background: var(--success); }
+
+  /* 案内ボックス */
+  .notice {
+    background: var(--notice-bg);
+    border-left: 4px solid var(--notice-bar);
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  .notice-title {
+    font-size: 13px; font-weight: 700; color: var(--notice-text);
+    margin: 0 0 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .notice-body {
+    font-size: 14px; color: var(--notice-text);
+    line-height: 1.7; margin: 0;
+    white-space: pre-wrap;
+  }
+  .notice-body ul { margin: 6px 0 0; padding-left: 20px; }
+  .notice-body li { margin: 3px 0; }
+
+  /* カード */
+  .card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(0,0,0,0.02);
+  }
+  label {
+    display: block; font-weight: 700;
+    font-size: 13px; color: var(--text);
+    margin-bottom: 8px; letter-spacing: 0.02em;
+  }
+  .required { color: var(--danger); margin-left: 3px; }
+
+  input[type="text"], textarea {
+    width: 100%; padding: 13px 14px;
+    font-size: 16px;
+    border: 1.5px solid var(--border); border-radius: 10px;
+    background: #fafbfc;
+    font-family: inherit;
+    color: var(--text);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  input[type="text"]:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: #fff;
+  }
+  textarea { min-height: 76px; resize: vertical; line-height: 1.5; }
+
+  /* ボタン */
+  .btn {
+    width: 100%; padding: 18px;
+    font-size: 17px; font-weight: 700;
+    border: none; border-radius: 14px;
+    cursor: pointer;
+    margin-top: 14px;
+    color: #fff;
+    letter-spacing: 0.02em;
+    transition: transform 0.1s, box-shadow 0.2s;
+  }
+  .btn-primary { background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%); box-shadow: var(--shadow-btn); }
+  .btn-success { background: linear-gradient(180deg, var(--success) 0%, var(--success-dark) 100%); box-shadow: var(--shadow-btn-success); }
+  .btn:active { transform: translateY(1px); opacity: 0.92; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* 写真 */
+  .photo-input { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .photo-thumb {
+    width: 78px; height: 78px; border-radius: 10px;
+    background-size: cover; background-position: center;
+    position: relative;
+    background-color: #f0f0f3;
+    box-shadow: var(--shadow-sm);
+  }
+  .photo-thumb .remove {
+    position: absolute; top: -8px; right: -8px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--danger); color: #fff;
+    border: 2.5px solid #fff; font-size: 15px; line-height: 1;
+    cursor: pointer; padding: 0; font-weight: 700;
+    box-shadow: 0 2px 6px rgba(255,77,79,0.4);
+  }
+  .file-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 18px;
+    background: #f0f1f5;
+    border-radius: 10px; font-size: 14px; font-weight: 700;
+    cursor: pointer; margin-top: 6px;
+    color: var(--text);
+    transition: background 0.15s;
+  }
+  .file-label:hover { background: #e5e6eb; }
+  .file-label:active { background: #d8d9de; }
+  .file-label input { display: none; }
+  .hint { font-size: 12px; color: var(--text-sub); margin-top: 4px; line-height: 1.5; }
+
+  /* 送信完了 */
+  .success { text-align: center; padding: 80px 24px 40px; }
+  .success .icon {
+    font-size: 44px; color: #fff;
+    width: 92px; height: 92px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, var(--success) 0%, var(--success-dark) 100%);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 28px rgba(46,204,113,0.4);
+  }
+  .success h2 { font-size: 22px; font-weight: 800; margin: 0 0 10px; }
+  .success p { color: var(--text-sub); font-size: 15px; margin: 4px 0; line-height: 1.6; }
+
+  /* エラー・ローディング */
+  .error-box {
+    background: #fff1f1;
+    border: 1.5px solid #ffcccf;
+    color: #c0272c;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    display: none;
+    line-height: 1.5;
+    font-weight: 600;
+  }
+  .loading-overlay {
+    position: fixed; inset: 0;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none; align-items: center; justify-content: center; flex-direction: column;
+    z-index: 200; gap: 16px;
+  }
+  .loading-overlay.active { display: flex; }
+  .spinner {
+    width: 48px; height: 48px;
+    border: 4px solid #e5e5ea; border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { color: var(--text-sub); font-size: 14px; font-weight: 600; }
+
+  /* 施設未指定 */
+  .no-property { text-align: center; padding: 100px 24px; }
+  .no-property .icon { font-size: 64px; margin-bottom: 16px; }
+  .no-property h2 { font-size: 20px; font-weight: 700; margin: 0 0 10px; }
+
+  /* フッター */
+  .footer {
+    text-align: center;
+    color: var(--text-sub);
+    font-size: 11px; letter-spacing: 0.14em;
+    margin-top: 28px; padding-top: 16px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+  }
+
+  /* 棟チェックボックス（開始/終了画面・複数棟物件のみ） */
+  .buildings-checkbox { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+  .building-row {
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 14px 16px; border: 1.5px solid rgba(42,109,245,0.3);
+    border-radius: 12px; background: #fff;
+    user-select: none;
+    transition: background 0.15s ease;
+  }
+  .building-row:has(input[type=checkbox]:checked) {
+    background: rgba(42,109,245,0.08);
+    border-color: rgba(42,109,245,0.6);
+  }
+  .building-row-head {
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer;
+  }
+  .building-row input[type=checkbox] {
+    width: 22px; height: 22px; accent-color: #2a6df5;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .building-row .building-label { font-size: 16px; font-weight: 600; }
+  .building-row .staff-field {
+    display: none;
+    flex-direction: column; gap: 4px;
+    padding-left: 34px;
+  }
+  .building-row:has(input[type=checkbox]:checked) .staff-field {
+    display: flex;
+  }
+  .building-row .staff-field-label {
+    font-size: 12px; font-weight: 600; color: var(--text-sub);
+  }
+  .building-row .staff-input {
+    width: 100%; padding: 10px 12px;
+    font-size: 15px;
+    border: 1.5px solid var(--border); border-radius: 8px;
+    background: #fafbfc;
+    font-family: inherit;
+    color: var(--text);
+  }
+  .building-row .staff-input:focus {
+    outline: none; border-color: var(--primary); background: #fff;
+  }
+  .buildings-counter {
+    margin-top: 10px; font-size: 13px; color: #2a6df5; font-weight: 600;
+  }
+
+  /* 棟別セクション（終了画面・複数棟物件のみ） */
+  .building-section {
+    border: 1.5px solid rgba(42,109,245,0.3);
+    background: rgba(42,109,245,0.04);
+  }
+  .building-title {
+    font-size: 17px; font-weight: 700; color: #2a6df5;
+    margin: 0 0 12px; padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(42,109,245,0.3);
+  }
+  /* 共通入力セクションのアクセント */
+  .common-section-banner {
+    background: rgba(255, 200, 100, 0.15);
+    border: 1px solid rgba(220, 150, 50, 0.35);
+    padding: 10px 14px; border-radius: 10px;
+    margin: 8px 0 16px;
+    font-size: 13px; font-weight: 600; color: #8a5a1a;
+  }
+
+  /* === シーツ在庫モード（mode=sheet） === */
+  .phase-badge.sheet { background: #fff4e0; color: #8b6f3a; }
+  .phase-badge.sheet::before { background: #c8a96a; }
+  .stock-grid {
+    display: flex; flex-direction: column; gap: 0;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    margin-top: 6px;
+  }
+  .stock-row {
+    display: flex; align-items: center;
+    padding: 12px 14px;
+    border-bottom: 1px solid #f0eee9;
+    gap: 12px;
+  }
+  .stock-row:last-child { border-bottom: none; }
+  .stock-name {
+    flex: 1;
+    font-size: 15px; font-weight: 700;
+    color: var(--text);
+  }
+  .stock-input {
+    width: 80px;
+    padding: 10px 12px;
+    font-size: 18px; font-weight: 700;
+    text-align: right;
+    color: var(--text);
+    background: #fafbfc;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    outline: none;
+    -moz-appearance: textfield;
+  }
+  .stock-input::-webkit-outer-spin-button,
+  .stock-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .stock-input:focus { border-color: #8b6f3a; background: #fffdf6; }
+  .stock-unit { font-size: 13px; color: var(--text-sub); font-weight: 600; }
+  .stock-row.other {
+    flex-direction: column; align-items: stretch; gap: 8px;
+    background: #faf6ed;
+  }
+  .stock-row.other .stock-name { font-size: 14px; }
+  .btn-sheet {
+    background: linear-gradient(180deg, #c8a96a 0%, #8b6f3a 100%);
+    box-shadow: 0 4px 14px rgba(139,111,58,0.3);
+  }
+
+  /* その他選択肢（収納式・details/summary） */
+  .other-collapse {
+    background: #faf6ed;
+    border-bottom: 1px solid #f0eee9;
+  }
+  .other-collapse[open] { background: #fffdf6; }
+  .other-collapse-summary {
+    padding: 14px;
+    font-size: 14px; font-weight: 700;
+    color: var(--text);
+    cursor: pointer;
+    list-style: none;
+    display: flex; align-items: center; gap: 10px;
+    user-select: none;
+  }
+  .other-collapse-summary::-webkit-details-marker { display: none; }
+  .other-collapse-summary::before {
+    content: '▶';
+    font-size: 10px;
+    color: #8b6f3a;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .other-collapse[open] .other-collapse-summary::before {
+    transform: rotate(90deg);
+  }
+  .other-collapse-content {
+    padding: 0 14px 14px;
+  }
+  .other-collapse-content .hint {
+    font-size: 12px; color: var(--text-sub); margin: 0 0 8px;
+  }
+  .other-collapse-content input[type=text] {
+    width: 100%;
+    padding: 11px 13px;
+    font-size: 15px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--text);
+    font-family: inherit;
+  }
+  .other-collapse-content input[type=text]:focus {
+    outline: none; border-color: #8b6f3a; background: #fffdf6;
+  }
+</style>
+</head>
+<body>
+
+<!-- プレビューツールバー（?dev=0で非表示） -->
+<div id="previewToolbar" class="preview-toolbar" style="display:none;">
+  <strong>🧪 プレビュー</strong>
+  <div class="toggle">
+    <button id="btn-start" class="active" onclick="showScreen('start')">開始画面</button>
+    <button id="btn-end" onclick="showScreen('end')">終了画面</button>
+    <button id="btn-sheet" onclick="showScreen('sheet')">シーツ在庫</button>
+    <button id="btn-success" onclick="showScreen('success')">送信完了</button>
+  </div>
+  <select id="propertySelect" onchange="updateProperty()"></select>
+  <span class="preview-note">※本番はQRから施設自動設定</span>
+</div>
+
+<div class="phone-frame">
+  <div class="phone-content">
+
+    <!-- 施設未指定時 -->
+    <div id="screen-no-property" class="no-property" style="display:none;">
+      <div class="icon">🏠</div>
+      <h2>施設情報がありません</h2>
+      <p style="color:#6b6b73;">QRコードから再度アクセスしてください</p>
+    </div>
+
+    <!-- メイン画面 -->
+    <div id="main-screen">
+
+      <div class="header">
+        <div class="brand">CAGOO CLEANING REPORT</div>
+        <h1 class="page-title">🧹 清掃報告</h1>
+        <div class="property-row">
+          <span class="property-name" id="propName">—</span>
+          <span id="badgeStart" class="phase-badge start">清掃開始</span>
+          <span id="badgeEnd" class="phase-badge end" style="display:none;">清掃完了報告</span>
+          <span id="badgeSheet" class="phase-badge sheet" style="display:none;">シーツ在庫</span>
+        </div>
+      </div>
+
+      <div id="errorBox" class="error-box"></div>
+
+      <!-- 開始画面 -->
+      <div id="screen-start">
+
+        <div class="notice">
+          <p class="notice-title">📋 ご確認ください</p>
+          <div class="notice-body" id="notice-start"></div>
+        </div>
+
+        <!-- 単独物件用（複数棟物件では非表示） -->
+        <div class="card" id="card-start-staff-single">
+          <label>担当者名 <span class="required">*</span></label>
+          <input type="text" id="start_staff" placeholder="例: 山田 太郎" autocomplete="name">
+        </div>
+
+        <!-- 複数棟物件のみ表示・棟チェック+担当者UI -->
+        <div class="card" id="card-buildings-select" style="display:none;">
+          <label>今日清掃する棟と担当者 <span class="required">*</span></label>
+          <div class="hint">担当する棟をチェックして、棟ごとに担当者名を入力してください</div>
+          <div class="buildings-checkbox" id="buildings_checkbox"></div>
+          <div class="buildings-counter" id="buildings_counter"></div>
+        </div>
+
+        <div class="card">
+          <label>清掃開始前の写真（任意・複数可）</label>
+          <div class="hint">Before の状態を残したい場合のみ撮影してください</div>
+          <label class="file-label">📷 写真を選ぶ／撮影<input type="file" accept="image/*" multiple data-target="photos_before"></label>
+          <div class="photo-input" id="photos_before"></div>
+        </div>
+
+        <button class="btn btn-primary" id="submitStart">清掃開始を記録する</button>
+      </div>
+
+      <!-- 終了画面 -->
+      <div id="screen-end" style="display:none;">
+
+        <div class="notice">
+          <p class="notice-title">📋 清掃お疲れ様でした</p>
+          <div class="notice-body" id="notice-end"></div>
+        </div>
+
+        <!-- 単独物件用（複数棟物件では非表示） -->
+        <div class="card" id="card-end-staff-single">
+          <label>担当者名 <span class="required">*</span></label>
+          <input type="text" id="end_staff" placeholder="例: 山田 太郎" autocomplete="name">
+        </div>
+
+        <!-- 複数棟物件のみ表示・棟チェック+担当者UI -->
+        <div class="card" id="card-end-buildings-select" style="display:none;">
+          <label>清掃した棟と担当者 <span class="required">*</span></label>
+          <div class="hint">完了した棟をチェックして、棟ごとに担当者名を入力してください</div>
+          <div class="buildings-checkbox" id="end_buildings_checkbox"></div>
+          <div class="buildings-counter" id="end_buildings_counter"></div>
+        </div>
+
+        <!-- 共通入力（複数棟物件の場合に表示するバナー） -->
+        <div class="common-section-banner" id="common_section_banner" style="display:none;">
+          🏛 ここから下は <strong>物件全体共通</strong> の項目です（1回だけ入力）
+        </div>
+
+        <div class="card">
+          <label>忘れ物</label>
+          <textarea id="end_lost" placeholder="なければ空欄でOK"></textarea>
+          <label class="file-label">📷 写真<input type="file" accept="image/*" multiple data-target="photos_lost"></label>
+          <div class="photo-input" id="photos_lost"></div>
+        </div>
+
+        <div class="card">
+          <label>スタッフからあげる気づき</label>
+          <textarea id="end_insight" placeholder="気づいたこと・改善できそうな点があれば（なければ空欄でOK）"></textarea>
+        </div>
+
+        <div class="card">
+          <label>発注品</label>
+          <textarea id="end_order" placeholder="補充が必要な消耗品など"></textarea>
+          <label class="file-label">📷 写真<input type="file" accept="image/*" multiple data-target="photos_order"></label>
+          <div class="photo-input" id="photos_order"></div>
+        </div>
+
+        <div class="card">
+          <label>特記事項</label>
+          <textarea id="end_notes" placeholder="その他伝達事項"></textarea>
+        </div>
+
+        <!-- 単独物件用：修繕欄＋清掃後写真欄（複数棟物件の場合は隠す） -->
+        <div id="end_legacy_repair">
+          <div class="card">
+            <label>修繕が必要な箇所</label>
+            <textarea id="end_repair" placeholder="気になる箇所があれば記入"></textarea>
+            <label class="file-label">📷 写真<input type="file" accept="image/*" multiple data-target="photos_repair"></label>
+            <div class="photo-input" id="photos_repair"></div>
+          </div>
+        </div>
+
+        <div id="end_legacy_after">
+          <div class="card">
+            <label>清掃終了写真</label>
+            <div class="hint">完了状態を複数枚撮影してください（任意）</div>
+            <label class="file-label">📷 写真を選ぶ／撮影<input type="file" accept="image/*" multiple data-target="photos_after"></label>
+            <div class="photo-input" id="photos_after"></div>
+          </div>
+        </div>
+
+        <!-- 複数棟物件用：棟別セクション（清掃後写真+修繕） -->
+        <div id="end_buildings_container"></div>
+
+        <button class="btn btn-success" id="submitEnd">清掃完了を報告する</button>
+      </div>
+
+      <!-- シーツ在庫画面（mode=sheet） -->
+      <div id="screen-sheet" style="display:none;">
+
+        <div class="notice">
+          <p class="notice-title">📦 週1回の在庫報告</p>
+          <div class="notice-body" id="notice-sheet">
+            <strong>火曜日</strong>に在庫数を入力してください。<br>
+            連泊が入っている週は<strong>月曜日</strong>にお願いします。
+          </div>
+        </div>
+
+        <div class="card">
+          <label>担当者名 <span class="required">*</span></label>
+          <input type="text" id="sheet_staff" placeholder="例: 山田 太郎" autocomplete="name" required>
+        </div>
+
+        <div class="card">
+          <label>収納場所 <span class="required">*</span></label>
+          <div class="hint">施設名と倉庫名をまとめて記入してください（複数施設の合算は「KAGO・ZAWA」のように併記）</div>
+          <input type="text" id="sheet_property" placeholder="例: KAGO 中央倉庫" required>
+        </div>
+
+        <div class="card">
+          <label>現在の在庫数</label>
+          <div class="hint">該当する品目だけ入力すれば OK（空欄は記録されません）</div>
+          <div class="stock-grid">
+            <div class="stock-row">
+              <span class="stock-name">シーツ</span>
+              <input type="number" inputmode="numeric" min="0" class="stock-input" data-stock="シーツ" placeholder="0">
+              <span class="stock-unit">枚</span>
+            </div>
+            <div class="stock-row">
+              <span class="stock-name">掛けカバー</span>
+              <input type="number" inputmode="numeric" min="0" class="stock-input" data-stock="掛けカバー" placeholder="0">
+              <span class="stock-unit">枚</span>
+            </div>
+            <div class="stock-row">
+              <span class="stock-name">枕カバー</span>
+              <input type="number" inputmode="numeric" min="0" class="stock-input" data-stock="枕カバー" placeholder="0">
+              <span class="stock-unit">枚</span>
+            </div>
+            <div class="stock-row">
+              <span class="stock-name">フェイスタオル</span>
+              <input type="number" inputmode="numeric" min="0" class="stock-input" data-stock="フェイスタオル" placeholder="0">
+              <span class="stock-unit">枚</span>
+            </div>
+            <div class="stock-row">
+              <span class="stock-name">バスタオル</span>
+              <input type="number" inputmode="numeric" min="0" class="stock-input" data-stock="バスタオル" placeholder="0">
+              <span class="stock-unit">枚</span>
+            </div>
+
+            <!-- デュベ（2026-05-25: チェックボックス廃止・常時入力可に変更） -->
+            <div class="stock-row">
+              <span class="stock-name">デュベ</span>
+              <input type="number" inputmode="numeric" min="0" class="stock-input" data-stock="デュベ" placeholder="0">
+              <span class="stock-unit">枚</span>
+            </div>
+
+            <div class="stock-row">
+              <span class="stock-name">ダブルシーツ</span>
+              <input type="number" inputmode="numeric" min="0" class="stock-input" data-stock="ダブルシーツ" placeholder="0">
+              <span class="stock-unit">枚</span>
+            </div>
+
+            <!-- その他選択肢（収納式・自由記入） -->
+            <details class="other-collapse">
+              <summary class="other-collapse-summary">その他選択肢</summary>
+              <div class="other-collapse-content">
+                <div class="hint">バスマット・浴衣・足拭きマット など、該当する品目を自由に記入してください</div>
+                <input type="text" id="sheet_other" placeholder="例: バスマット 5枚、浴衣 12枚、足拭きマット 3枚">
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="card">
+          <label>備考</label>
+          <textarea id="sheet_notes" placeholder="その他、伝達事項があれば"></textarea>
+        </div>
+
+        <button class="btn btn-sheet" id="submitSheet">📦 在庫を報告する</button>
+      </div>
+
+      <!-- 送信完了画面 -->
+      <div id="screen-success" style="display:none;" class="success">
+        <div class="icon">✓</div>
+        <h2 id="successTitle">報告を記録しました</h2>
+        <p>お疲れ様でした。</p>
+        <p id="successSubtext"></p>
+      </div>
+
+      <div class="footer">CAGOO INC.</div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="loadingOverlay" class="loading-overlay">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loadingText">送信中...</div>
+</div>
+
+<script>
+// ===== 設定 =====
+// 本番エンドポイント稼働中（2026-04-24 デプロイ完了）
+const API_ENDPOINT = "https://line-harness.corp-162.workers.dev/api/cleaning-report";
+const SHEET_API_ENDPOINT = "https://line-harness.corp-162.workers.dev/api/sheet-inventory";
+const PHOTO_MAX_SIZE = 1600;
+const PHOTO_QUALITY = 0.85;
+
+// 施設マスタ（properties.yaml active 23リスティング）
+const PROPERTIES = {
+  'kago-1st': 'KAGO 1st Floor',
+  'kago-2nd': 'KAGO 2nd Floor',
+  'zekkei': 'LABO(ZEKKEI)',
+  'zawa': 'ZAWA',
+  'cocon-fuji-b': 'COCON B棟',
+  'cocon-fuji-w': 'COCON W棟',
+  'natan': 'NATAN',
+  'sho-show': '将show',
+  'persimmon-a': 'Persimmon A',
+  'persimmon-b': 'Persimmon B',
+  'forestella-01': '彩01 Forestella01',
+  'forestella-02': '彩02 Forestella02',
+  'kagura': '神蔵/Kagura',
+  'mirokusou': '美麓荘/Mirokusou',
+  'alivio-a': 'アリビオA棟',
+  'alivio-b': 'アリビオB棟',
+  'alivio-c': 'アリビオC棟',
+  'sukiya': '数奇屋/Sukiya',
+  'tiny-fort': 'Tiny Fort',
+  'nadaya': 'なだや/NADAYA',
+  'village-a': 'ビレッジA棟',
+  'village-b': 'ビレッジB棟',
+  'village-c': 'ビレッジC棟',
+  'kawaguchiko-ekimae-201': '河口湖駅前店 201号室',
+  'kawaguchiko-ekimae-202': '河口湖駅前店 202号室',
+  'kawaguchiko-ekimae-203': '河口湖駅前店 203号室',
+  'kawaguchiko-ekimae-204': '河口湖駅前店 204号室',
+  'kawaguchiko-ekimae-205': '河口湖駅前店 205号室',
+  'kawaguchiko-ekimae-206': '河口湖駅前店 206号室',
+  'kawaguchiko-ekimae-207': '河口湖駅前店 207号室',
+  'kawaguchiko-ekimae-101': '河口湖駅前店 101号室'
+};
+
+// 物件グループマスタ（15物件・properties.yaml の property_group ベース）
+// 複数棟物件は棟チェック式で報告できる。単独物件はフラット運用。
+const PROPERTY_GROUPS = {
+  'kago':       { name: 'KAGO',          listings: [{id:'kago-1st', label:'1st Floor'}, {id:'kago-2nd', label:'2nd Floor'}] },
+  'cocon-fuji': { name: 'COCON',         listings: [{id:'cocon-fuji-b', label:'B棟'}, {id:'cocon-fuji-w', label:'W棟'}] },
+  'persimmon':  { name: 'Persimmon',     listings: [{id:'persimmon-a', label:'A棟'}, {id:'persimmon-b', label:'B棟'}] },
+  'forestella': { name: '彩 Forestella', listings: [{id:'forestella-01', label:'01'}, {id:'forestella-02', label:'02'}] },
+  'alivio':     { name: 'アリビオ',       listings: [{id:'alivio-a', label:'A棟'}, {id:'alivio-b', label:'B棟'}, {id:'alivio-c', label:'C棟'}] },
+  'village':    { name: 'ビレッジ',       listings: [{id:'village-a', label:'A棟'}, {id:'village-b', label:'B棟'}, {id:'village-c', label:'C棟'}] },
+  // 単独物件（棟チェック不要・フラット運用）
+  'zekkei':     { name: 'LABO(ZEKKEI)',  listings: [{id:'zekkei', label:''}] },
+  'zawa':       { name: 'ZAWA',           listings: [{id:'zawa', label:''}] },
+  'natan':      { name: 'NATAN',          listings: [{id:'natan', label:''}] },
+  'sho-show':   { name: '将show',         listings: [{id:'sho-show', label:''}] },
+  'kagura':     { name: '神蔵',           listings: [{id:'kagura', label:''}] },
+  'mirokusou':  { name: '美麓荘',         listings: [{id:'mirokusou', label:''}] },
+  'sukiya':     { name: '数奇屋',         listings: [{id:'sukiya', label:''}] },
+  'tiny-fort':  { name: 'Tiny Fort',     listings: [{id:'tiny-fort', label:''}] },
+  'nadaya':     { name: 'なだや',         listings: [{id:'nadaya', label:''}] },
+  'kawaguchiko-ekimae': {
+    name: '河口湖駅前店',
+    noStaff: true, // 棟ごとの担当者入力欄を表示しない（清掃前・清掃後とも）
+    listings: [
+      {id:'kawaguchiko-ekimae-201', label:'201号室'},
+      {id:'kawaguchiko-ekimae-202', label:'202号室'},
+      {id:'kawaguchiko-ekimae-203', label:'203号室'},
+      {id:'kawaguchiko-ekimae-204', label:'204号室'},
+      {id:'kawaguchiko-ekimae-205', label:'205号室'},
+      {id:'kawaguchiko-ekimae-206', label:'206号室'},
+      {id:'kawaguchiko-ekimae-207', label:'207号室'},
+      {id:'kawaguchiko-ekimae-101', label:'101号室'},
+    ],
+  },
+};
+
+// 棟ID → 物件グループID の逆引き
+const LISTING_TO_GROUP = {};
+Object.entries(PROPERTY_GROUPS).forEach(([gid, g]) => {
+  g.listings.forEach(l => { LISTING_TO_GROUP[l.id] = gid; });
+});
+
+// プロパティ識別子の解決
+//   ?property=village    → 物件単位（複数棟物件は棟チェックUI表示）
+//   ?property=village-a  → 棟単位（後方互換・単一棟扱い）
+function resolveProperty(pid) {
+  if (PROPERTY_GROUPS[pid]) {
+    const g = PROPERTY_GROUPS[pid];
+    return {
+      groupId: pid,
+      groupName: g.name,
+      listings: g.listings,
+      isMultiBuilding: g.listings.length > 1,
+      noStaff: !!g.noStaff,
+    };
+  }
+  if (LISTING_TO_GROUP[pid]) {
+    const gid = LISTING_TO_GROUP[pid];
+    const listing = PROPERTY_GROUPS[gid].listings.find(l => l.id === pid);
+    return {
+      groupId: gid,
+      groupName: PROPERTIES[pid] || PROPERTY_GROUPS[gid].name,
+      listings: [listing],
+      isMultiBuilding: false,
+      noStaff: !!PROPERTY_GROUPS[gid].noStaff,
+    };
+  }
+  return null;
+}
+
+// ========= 案内文（共通＋グループ＋施設別の3層オーバーライド） =========
+// 開始画面の案内文（デフォルト共通）
+const DEFAULT_NOTICE_START = `このQRから清掃開始を記録できます。
+清掃完了後は、必ずもう1枚のQRコードから完了報告をお願いします。`;
+
+// 終了画面の案内文（2026-05-23: 早川さん指示で空に変更・タイトル「清掃お疲れ様でした」のみ表示）
+const DEFAULT_NOTICE_END = ``;
+
+// グループ別の上書き（property_group ベース・物件タイプ別の差分）
+// 個別物件の上書きを作る前に、ここで多くの施設をカバーできる
+const GROUP_NOTICES = {
+  // 一棟貸し別荘・露天風呂や庭がある物件
+  'villa-with-outdoor': {
+    end: DEFAULT_NOTICE_END.replace('</ul>',
+      `  <li><strong>屋外</strong>: テラス / 庭 / 露天風呂 / バルコニーの清掃と忘れ物</li>\n  <li><strong>BBQ・焚き火</strong>: 灰の処理 / 道具の清掃</li>\n</ul>`),
+  },
+  // 和室がある物件
+  'with-tatami': {
+    end: DEFAULT_NOTICE_END.replace('</ul>',
+      `  <li><strong>和室</strong>: 畳のシミ・汚れ / 障子・襖の破れ確認</li>\n</ul>`),
+  },
+  // 複数棟・大型施設
+  'multi-room': {
+    end: DEFAULT_NOTICE_END.replace('</ul>',
+      `  <li><strong>各部屋</strong>: 全部屋の電気・空調・カーテン確認（漏れがないか）</li>\n</ul>`),
+  },
+};
+
+// 各施設がどのグループテンプレを継承するか（property_group ベース）
+// TODO: 早川による各施設の特徴調整は GROUP マッピング → PROPERTY 個別上書きの順で
+const PROPERTY_GROUP_MAP = {
+  // 簡易宿泊・部屋単位
+  'kago-1st': null, 'kago-2nd': null,
+  // 一棟貸し別荘系
+  'zekkei': 'villa-with-outdoor',
+  'zawa': 'villa-with-outdoor',
+  'cocon-fuji-b': 'villa-with-outdoor', 'cocon-fuji-w': 'villa-with-outdoor',
+  'natan': 'villa-with-outdoor',
+  'sho-show': 'villa-with-outdoor',
+  'persimmon-a': 'villa-with-outdoor', 'persimmon-b': 'villa-with-outdoor',
+  'forestella-01': 'villa-with-outdoor', 'forestella-02': 'villa-with-outdoor',
+  'kagura': 'with-tatami',
+  'mirokusou': 'with-tatami',
+  'alivio-a': 'villa-with-outdoor', 'alivio-b': 'villa-with-outdoor', 'alivio-c': 'villa-with-outdoor',
+  'sukiya': 'with-tatami',
+  'tiny-fort': null,
+  'nadaya': 'with-tatami',
+  'village-a': 'villa-with-outdoor', 'village-b': 'villa-with-outdoor', 'village-c': 'villa-with-outdoor',
+};
+
+// 施設ごとの個別上書き（最終層・最優先）
+// TODO: 各施設に固有の確認事項があれば追記
+// 例: 'kagura': { end: "神蔵は和室があるため、畳の汚れも確認してください" },
+const PROPERTY_NOTICES = {
+  // 個別カスタマイズはここに追加
+};
+
+// ===== 文言上書き (KV) — 2026-05-23 追加 =====
+// /cleaning-editor (Vue 3 SPA) から従業員がブラウザで編集 → KV に保存
+// → ここで読み込んで上書き反映
+const TEXT_OVERRIDES_API = 'https://line-harness.corp-162.workers.dev/api/cleaning-text/load';
+let TEXT_OVERRIDES = {};
+async function loadTextOverrides() {
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 2500);
+    const res = await fetch(TEXT_OVERRIDES_API, { signal: ctrl.signal });
+    clearTimeout(timer);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.overrides) TEXT_OVERRIDES = data.overrides;
+    }
+  } catch (e) {
+    // 失敗時はサイレントにデフォルト使用
+    console.log('[cleaning-report] text overrides unavailable:', e.message);
+  }
+}
+
+function applyDomOverrides() {
+  const o = TEXT_OVERRIDES;
+  const setText = (sel, val) => { if (val == null) return; const el = document.querySelector(sel); if (el) el.textContent = val; };
+  const setHTML = (sel, val) => { if (val == null) return; const el = document.querySelector(sel); if (el) el.innerHTML = val; };
+  const setPH   = (sel, val) => { if (val == null) return; const el = document.querySelector(sel); if (el) el.setAttribute('placeholder', val); };
+  const setLabel = (inputSel, val) => {
+    if (val == null) return;
+    const input = document.querySelector(inputSel);
+    if (!input) return;
+    const card = input.closest('.card');
+    if (!card) return;
+    const label = card.querySelector('label');
+    if (!label) return;
+    const reqSpan = label.querySelector('.required');
+    if (reqSpan) {
+      const esc = val.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      label.innerHTML = esc + ' ' + reqSpan.outerHTML;
+    } else {
+      label.textContent = val;
+    }
+  };
+  // 開始画面
+  setText('#screen-start .notice-title', o.start_notice_title);
+  setText('#submitStart', o.start_submit_button);
+  setLabel('#start_staff', o.start_staff_label);
+  // 終了画面
+  setText('#screen-end .notice-title', o.end_notice_title);
+  setText('#submitEnd', o.end_submit_button);
+  setLabel('#end_staff', o.end_staff_label);
+  setLabel('#end_lost', o.end_lost_label);
+  setLabel('#end_order', o.end_order_label);
+  setLabel('#end_notes', o.end_notes_label);
+  setLabel('#end_repair', o.end_repair_label);
+  setPH('#end_lost', o.end_lost_placeholder);
+  setPH('#end_order', o.end_order_placeholder);
+  setPH('#end_notes', o.end_notes_placeholder);
+  setPH('#end_repair', o.end_repair_placeholder);
+  // シーツ画面
+  setText('#screen-sheet .notice-title', o.sheet_notice_title);
+  setHTML('#notice-sheet', o.sheet_notice_body);
+  setText('#submitSheet', o.sheet_submit_button);
+  setLabel('#sheet_staff', o.sheet_staff_label);
+  setLabel('#sheet_property', o.sheet_location_label);
+  setPH('#sheet_notes', o.sheet_notes_placeholder);
+}
+
+function getNotice(pid, phase) {
+  // 0. KV-loaded override (highest priority・ブランクでも反映)
+  if (phase === 'start' && TEXT_OVERRIDES.start_notice_body !== undefined) return TEXT_OVERRIDES.start_notice_body;
+  if (phase === 'end' && TEXT_OVERRIDES.end_notice_body !== undefined) return TEXT_OVERRIDES.end_notice_body;
+  // 1. 施設個別上書き
+  const own = (PROPERTY_NOTICES[pid] || {})[phase];
+  if (own !== undefined) return own;
+  // 2. グループ上書き
+  const group = PROPERTY_GROUP_MAP[pid];
+  if (group) {
+    const grp = (GROUP_NOTICES[group] || {})[phase];
+    if (grp !== undefined) return grp;
+  }
+  // 3. デフォルト
+  return phase === 'start' ? DEFAULT_NOTICE_START : DEFAULT_NOTICE_END;
+}
+
+// ===== URLパラメータ =====
+const params = new URLSearchParams(location.search);
+const propertyId = params.get('property') || '';
+const mode = params.get('mode') || 'start';
+// このフォームを読み込んだ日付（日跨ぎ・前日フォーム再利用の検知に使う）
+const FORM_LOADED_YMD = (() => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+})();
+const devMode = params.get('dev') !== '0' && (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname === '');
+
+// ===== 現在の物件解決結果（複数棟 or 単独）=====
+let currentProperty = null;  // resolveProperty の結果が入る
+
+// ===== 写真ストア =====
+// 単独物件用（既存）+ 棟別動的キー（photos_after_<id> / photos_repair_<id>）
+const photoStore = {
+  photos_before: [],
+  photos_lost: [],
+  photos_repair: [],
+  photos_order: [],
+  photos_after: []
+};
+
+// ===== 初期化 =====
+async function init() {
+  // 文言上書き取得 (失敗時はデフォルト・最大2.5秒タイムアウト)
+  await loadTextOverrides();
+  applyDomOverrides();
+
+  if (devMode) {
+    document.getElementById('previewToolbar').style.display = 'flex';
+    const sel = document.getElementById('propertySelect');
+    // プレビューには物件単位IDと棟単位ID 両方を選べるようにする
+    const optGroup1 = document.createElement('optgroup'); optGroup1.label = '物件単位（推奨・複数棟は棟チェック式）';
+    Object.entries(PROPERTY_GROUPS).forEach(([gid, g]) => {
+      const opt = document.createElement('option');
+      opt.value = gid;
+      const labels = g.listings.length > 1 ? `（${g.listings.map(l => l.label).join('・')}）` : '';
+      opt.textContent = `${g.name}${labels}`;
+      optGroup1.appendChild(opt);
+    });
+    sel.appendChild(optGroup1);
+    const optGroup2 = document.createElement('optgroup'); optGroup2.label = '棟単位（後方互換）';
+    Object.entries(PROPERTIES).forEach(([id, name]) => {
+      const opt = document.createElement('option');
+      opt.value = id; opt.textContent = name;
+      optGroup2.appendChild(opt);
+    });
+    sel.appendChild(optGroup2);
+    if (propertyId) sel.value = propertyId;
+  }
+
+  const pid = propertyId || (devMode ? document.getElementById('propertySelect').value : '');
+  if (!pid || !resolveProperty(pid)) {
+    // sheet モードは業者が施設名を手入力するため、property不要
+    if (mode === 'sheet') {
+      // 物件名表示を「シーツ在庫」固定にし、開始/完了バッジは非表示
+      const propRow = document.querySelector('.property-row');
+      if (propRow) propRow.style.display = 'none';
+    } else if (!devMode) {
+      document.getElementById('screen-no-property').style.display = 'block';
+      document.getElementById('main-screen').style.display = 'none';
+      return;
+    }
+  }
+
+  updateProperty();
+  const initialScreen = (mode === 'end') ? 'end' : (mode === 'sheet') ? 'sheet' : 'start';
+  showScreen(initialScreen);
+
+  document.querySelectorAll('input[type=file][data-target]').forEach(inp => {
+    inp.addEventListener('change', e => handleFiles(e.target));
+  });
+
+  document.getElementById('submitStart').addEventListener('click', () => submit('start'));
+  document.getElementById('submitEnd').addEventListener('click', () => submit('end'));
+  document.getElementById('submitSheet').addEventListener('click', () => submitSheet());
+
+  // 2026-05-25: デュベのチェックボックス連動は廃止（常時入力可に変更）
+}
+
+function showScreen(s) {
+  document.getElementById('screen-start').style.display = (s === 'start') ? 'block' : 'none';
+  document.getElementById('screen-end').style.display = (s === 'end') ? 'block' : 'none';
+  document.getElementById('screen-sheet').style.display = (s === 'sheet') ? 'block' : 'none';
+  document.getElementById('screen-success').style.display = (s === 'success') ? 'block' : 'none';
+  document.getElementById('badgeStart').style.display = (s === 'start') ? 'inline-flex' : 'none';
+  document.getElementById('badgeEnd').style.display = (s === 'end') ? 'inline-flex' : 'none';
+  document.getElementById('badgeSheet').style.display = (s === 'sheet') ? 'inline-flex' : 'none';
+  if (devMode) {
+    ['start','end','sheet','success'].forEach(k => {
+      document.getElementById('btn-' + k).classList.toggle('active', k === s);
+    });
+  }
+  document.getElementById('errorBox').style.display = 'none';
+  // 案内文を反映（noticeKey は物件グループID または 棟ID どちらでも可）
+  const pid = devMode ? document.getElementById('propertySelect').value : propertyId;
+  const noticeKey = currentProperty ? (currentProperty.listings[0] || {}).id : pid;
+  if (s === 'start') document.getElementById('notice-start').innerHTML = formatNotice(getNotice(noticeKey, 'start'));
+  if (s === 'end') document.getElementById('notice-end').innerHTML = formatNotice(getNotice(noticeKey, 'end'));
+}
+
+function formatNotice(text) {
+  // テキスト中に<ul>がある場合はそのまま、そうでなければ改行を<br>に変換
+  if (/<ul>|<ol>|<li>/i.test(text)) return text;
+  return escapeHtml(text).replace(/\n/g, '<br>');
+}
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function updateProperty() {
+  const pid = devMode ? document.getElementById('propertySelect').value : propertyId;
+  currentProperty = resolveProperty(pid);
+  if (!currentProperty) return;
+
+  // ヘッダー表示名（複数棟は「Village（A棟・B棟・C棟）」、単独は施設名そのまま）
+  let displayName = currentProperty.groupName;
+  if (currentProperty.isMultiBuilding) {
+    const labels = currentProperty.listings.map(l => l.label).join('・');
+    displayName = `${currentProperty.groupName}（${labels}）`;
+  }
+  document.getElementById('propName').textContent = displayName;
+
+  // 案内文（既存のgetNoticeを呼ぶ。物件グループIDでも棟IDでも通る設計）
+  const noticeKey = (currentProperty.listings[0] || {}).id || pid;
+  document.getElementById('notice-start').innerHTML = formatNotice(getNotice(noticeKey, 'start'));
+  document.getElementById('notice-end').innerHTML = formatNotice(getNotice(noticeKey, 'end'));
+
+  // 単独/複数棟で「共通担当者欄」の表示を切り替え
+  const isMulti = currentProperty.isMultiBuilding;
+  const startSingle = document.getElementById('card-start-staff-single');
+  const endSingle = document.getElementById('card-end-staff-single');
+  if (startSingle) startSingle.style.display = isMulti ? 'none' : 'block';
+  if (endSingle) endSingle.style.display = isMulti ? 'none' : 'block';
+
+  // 開始画面：棟チェックUIを生成（複数棟物件のみ表示）
+  renderBuildingsCheckbox();
+
+  // 終了画面：棟チェックUI + 棟別セクションを生成 + 共通セクションバナー表示制御
+  renderEndBuildingsCheckbox();
+  renderBuildingSections();
+  updateEndBuildingSectionsVisibility();
+}
+
+// ===== 棟チェック+担当者UI（開始/終了 共通生成・複数棟物件のみ） =====
+// scope = 'start' or 'end'
+function renderBuildingsWithStaff(scope) {
+  const card = document.getElementById(scope === 'start' ? 'card-buildings-select' : 'card-end-buildings-select');
+  const boxId = scope === 'start' ? 'buildings_checkbox' : 'end_buildings_checkbox';
+  if (!currentProperty || !currentProperty.isMultiBuilding) {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = 'block';
+  const box = document.getElementById(boxId);
+  box.innerHTML = '';
+
+  // 担当者欄を表示しない物件（例: 河口湖駅前）ではラベル/案内文も担当者抜きに差し替える
+  const noStaff = !!currentProperty.noStaff;
+  const labelEl = card.querySelector('label');
+  const hintEl = card.querySelector('.hint');
+  if (noStaff) {
+    if (labelEl) labelEl.innerHTML = (scope === 'start' ? '今日清掃する棟' : '清掃した棟') + ' <span class="required">*</span>';
+    if (hintEl) hintEl.textContent = (scope === 'start' ? '担当する棟をチェックしてください' : '完了した棟をチェックしてください');
+  }
+
+  // 終了画面では開始時の担当者を localStorage から復元
+  const savedStaff = (scope === 'end') ? loadStartStaffMap() : {};
+
+  currentProperty.listings.forEach(l => {
+    const row = document.createElement('div');
+    row.className = 'building-row';
+    const cbId = `${scope}_cb_${l.id}`;
+    const inputId = `${scope}_staff_${l.id}`;
+    const defaultStaff = savedStaff[l.id] || '';
+    const staffFieldHtml = noStaff ? '' : `
+      <div class="staff-field">
+        <span class="staff-field-label">この棟の担当者</span>
+        <input type="text" id="${inputId}" class="staff-input" data-staff-for="${l.id}"
+               placeholder="例: 山田 太郎" autocomplete="name" value="${escapeHtml(defaultStaff)}">
+      </div>`;
+    row.innerHTML = `
+      <label class="building-row-head" for="${cbId}">
+        <input type="checkbox" id="${cbId}" data-building="${l.id}">
+        <span class="building-label">🏠 ${escapeHtml(l.label)}</span>
+      </label>${staffFieldHtml}
+    `;
+    box.appendChild(row);
+  });
+  box.querySelectorAll('input[type=checkbox]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      updateBuildingsCounter(scope);
+      // 終了画面でチェック連動：棟別セクションの表示/非表示を更新
+      if (scope === 'end') updateEndBuildingSectionsVisibility();
+    });
+  });
+  updateBuildingsCounter(scope);
+}
+
+// 開始/終了 共通： チェックされた棟と担当者を取得
+// 戻り値: [{ id, label, staff }, ...]
+function getCheckedBuildingsWithStaff(scope) {
+  const boxId = scope === 'start' ? 'buildings_checkbox' : 'end_buildings_checkbox';
+  const checked = Array.from(
+    document.querySelectorAll(`#${boxId} input[type=checkbox]:checked`)
+  );
+  return checked.map(cb => {
+    const id = cb.dataset.building;
+    const listing = currentProperty.listings.find(l => l.id === id) || { label: '' };
+    const staffInput = document.querySelector(`#${boxId} input[data-staff-for="${id}"]`);
+    return {
+      id,
+      label: listing.label,
+      staff: (staffInput?.value || '').trim(),
+    };
+  });
+}
+
+function updateBuildingsCounter(scope) {
+  const counterId = scope === 'start' ? 'buildings_counter' : 'end_buildings_counter';
+  const list = getCheckedBuildingsWithStaff(scope);
+  document.getElementById(counterId).textContent = `✅ ${list.length}棟を選択中`;
+}
+
+// 後方互換のため：既存呼び出しのエイリアス
+function renderBuildingsCheckbox() { renderBuildingsWithStaff('start'); }
+function renderEndBuildingsCheckbox() { renderBuildingsWithStaff('end'); }
+
+// ===== 日付ヘルパー（YYYY-MM-DD・ローカル時刻）=====
+function todayYmd() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+// ===== localStorage で開始時の担当者を保存・復元 =====
+//   キー: cleaning_staff_<propertyGroupId>_<YYYY-MM-DD>
+//   値: { [buildingId]: staffName }
+function staffStorageKey() {
+  if (!currentProperty) return null;
+  return `cleaning_staff_${currentProperty.groupId}_${todayYmd()}`;
+}
+
+// ===== 「本日この物件の開始を記録済み」マーカー（担当者名の有無に依存しない）=====
+//   完了QRを先に押した時の警告に使う。noStaff物件でも機能する。
+function startDoneKey() {
+  if (!currentProperty) return null;
+  return `cleaning_started_${currentProperty.groupId}_${todayYmd()}`;
+}
+function markStartDone() {
+  try { const k = startDoneKey(); if (k) localStorage.setItem(k, '1'); } catch (e) {}
+}
+function isStartDoneToday() {
+  try { const k = startDoneKey(); return !!(k && localStorage.getItem(k)); } catch (e) { return false; }
+}
+
+function saveStartStaffMap(buildings) {
+  try {
+    const key = staffStorageKey();
+    if (!key) return;
+    const map = {};
+    buildings.forEach(b => { if (b.staff) map[b.id] = b.staff; });
+    localStorage.setItem(key, JSON.stringify(map));
+  } catch (e) { /* localStorage無効でも動く */ }
+}
+
+function loadStartStaffMap() {
+  try {
+    const key = staffStorageKey();
+    if (!key) return {};
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) { return {}; }
+}
+
+// ===== 棟別セクション（終了画面・複数棟物件のみ） =====
+function renderBuildingSections() {
+  const container = document.getElementById('end_buildings_container');
+  const banner = document.getElementById('common_section_banner');
+  const legacyRepair = document.getElementById('end_legacy_repair');
+  const legacyAfter = document.getElementById('end_legacy_after');
+  if (!currentProperty) {
+    container.innerHTML = ''; banner.style.display = 'none';
+    legacyRepair.style.display = 'block'; legacyAfter.style.display = 'block';
+    return;
+  }
+  if (!currentProperty.isMultiBuilding) {
+    // 単独物件: 既存の修繕・清掃後写真欄をそのまま使う
+    container.innerHTML = '';
+    banner.style.display = 'none';
+    legacyRepair.style.display = 'block';
+    legacyAfter.style.display = 'block';
+    return;
+  }
+  // 複数棟物件: 既存欄を隠して、棟別セクションを生成（デフォルト全棟非表示・チェックで表示）
+  banner.style.display = 'block';
+  legacyRepair.style.display = 'none';
+  legacyAfter.style.display = 'none';
+
+  container.innerHTML = '';
+  currentProperty.listings.forEach(l => {
+    const card = document.createElement('div');
+    card.className = 'card building-section';
+    card.id = `end_section_${l.id}`;
+    card.style.display = 'none'; // デフォルト非表示・チェック時に表示
+    card.innerHTML = `
+      <h3 class="building-title">🏠 ${escapeHtml(l.label)}</h3>
+      <label>清掃後写真（この棟・複数枚）</label>
+      <div class="hint">この棟の完了状態を複数枚撮影してください（任意）</div>
+      <label class="file-label">📷 写真を選ぶ／撮影<input type="file" accept="image/*" multiple data-target="photos_after_${l.id}"></label>
+      <div class="photo-input" id="photos_after_${l.id}"></div>
+
+      <label style="margin-top:14px;">修繕が必要な箇所</label>
+      <textarea id="end_repair_${l.id}" placeholder="この棟の気になる箇所"></textarea>
+      <label class="file-label">📷 写真<input type="file" accept="image/*" multiple data-target="photos_repair_${l.id}"></label>
+      <div class="photo-input" id="photos_repair_${l.id}"></div>
+    `;
+    container.appendChild(card);
+    // photoStore 初期化
+    photoStore[`photos_after_${l.id}`] = [];
+    photoStore[`photos_repair_${l.id}`] = [];
+  });
+  // 新たに追加された file inputs にハンドラ登録
+  container.querySelectorAll('input[type=file][data-target]').forEach(inp => {
+    inp.addEventListener('change', e => handleFiles(e.target));
+  });
+}
+
+// 終了画面の棟別セクションをチェック状態に応じて表示/非表示
+function updateEndBuildingSectionsVisibility() {
+  if (!currentProperty || !currentProperty.isMultiBuilding) return;
+  const checkedIds = new Set(
+    Array.from(document.querySelectorAll('#end_buildings_checkbox input[type=checkbox]:checked'))
+      .map(cb => cb.dataset.building)
+  );
+  currentProperty.listings.forEach(l => {
+    const sec = document.getElementById(`end_section_${l.id}`);
+    if (sec) sec.style.display = checkedIds.has(l.id) ? 'block' : 'none';
+  });
+}
+
+// ===== 写真処理 =====
+async function handleFiles(input) {
+  const target = input.dataset.target;
+  const files = Array.from(input.files);
+  input.value = '';
+  for (const f of files) {
+    try {
+      const dataUrl = await resizeImage(f, PHOTO_MAX_SIZE, PHOTO_QUALITY);
+      photoStore[target].push(dataUrl);
+      renderPhotos(target);
+    } catch (e) { console.error('画像処理エラー', e); }
+  }
+}
+
+function resizeImage(file, maxSize, quality) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        if (w > maxSize || h > maxSize) {
+          if (w > h) { h = Math.round(h * maxSize / w); w = maxSize; }
+          else { w = Math.round(w * maxSize / h); h = maxSize; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderPhotos(target) {
+  const box = document.getElementById(target);
+  box.innerHTML = '';
+  photoStore[target].forEach((dataUrl, idx) => {
+    const thumb = document.createElement('div');
+    thumb.className = 'photo-thumb';
+    thumb.style.backgroundImage = `url(${dataUrl})`;
+    const btn = document.createElement('button');
+    btn.className = 'remove';
+    btn.type = 'button';
+    btn.textContent = '×';
+    btn.onclick = () => { photoStore[target].splice(idx, 1); renderPhotos(target); };
+    thumb.appendChild(btn);
+    box.appendChild(thumb);
+  });
+}
+
+// ===== 送信 =====
+function showError(msg) {
+  const box = document.getElementById('errorBox');
+  box.textContent = msg;
+  box.style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setLoading(on, text) {
+  document.getElementById('loadingText').textContent = text || '送信中...';
+  document.getElementById('loadingOverlay').classList.toggle('active', on);
+}
+
+async function submit(phase) {
+  const pid = devMode ? document.getElementById('propertySelect').value : propertyId;
+  if (!currentProperty) { showError('施設が特定できません'); return; }
+
+  // 日跨ぎガード: 前日に開いたフォームをそのまま使っている場合は送信を止め、QR再読込を促す
+  if (todayYmd() !== FORM_LOADED_YMD) {
+    showError('日付が変わりました。お手数ですが、QRコードを読み直してから報告してください。');
+    setTimeout(() => location.reload(), 1500);
+    return;
+  }
+
+  // ペイロード共通部
+  const payload = {
+    phase,
+    property_id: pid,                        // 業者がアクセスしたID（物件単位 or 棟単位）
+    property_group: currentProperty.groupId, // 物件グループID（kago/village 等）
+    property_name: currentProperty.groupName,
+    submitted_at: new Date().toISOString(),
+  };
+
+  if (phase === 'start') {
+    payload.photos_before = photoStore.photos_before;
+    if (currentProperty.isMultiBuilding) {
+      // 複数棟: 棟チェック+棟別担当者
+      const checked = getCheckedBuildingsWithStaff('start');
+      if (checked.length === 0) { showError('清掃する棟を1つ以上選んでください'); return; }
+      if (!currentProperty.noStaff) {
+        const missing = checked.filter(b => !b.staff);
+        if (missing.length > 0) {
+          showError(`以下の棟の担当者名を入力してください: ${missing.map(b => b.label).join('・')}`);
+          return;
+        }
+      }
+      payload.buildings = checked; // [{id, label, staff}, ...]
+      // 互換用: 代表者として最初の棟の担当者を共通staffにも入れる
+      payload.staff = checked[0].staff;
+      // localStorage に保存（終了画面で引き継ぎ）
+      saveStartStaffMap(checked);
+    } else {
+      const staff = document.getElementById('start_staff').value.trim();
+      if (!staff) { showError('担当者名を入力してください'); return; }
+      payload.staff = staff;
+      payload.buildings = [{ id: currentProperty.listings[0].id, label: '', staff }];
+    }
+  } else {
+    // 終了報告
+    // 完了QRを先に押した可能性: 本日この物件の「開始」記録がローカルに無ければ確認（警告して送信可）
+    if (!isStartDoneToday()) {
+      if (!confirm('「開始」の記録が見つかりません。\n通常は先に「開始」QRを読み取ってから清掃します。\n\nこのまま「完了」を報告しますか？')) {
+        return;
+      }
+    }
+    payload.lost = document.getElementById('end_lost').value.trim();
+    payload.insight = document.getElementById('end_insight').value.trim();
+    payload.order = document.getElementById('end_order').value.trim();
+    payload.notes = document.getElementById('end_notes').value.trim();
+    payload.photos_lost = photoStore.photos_lost;
+    payload.photos_order = photoStore.photos_order;
+
+    if (currentProperty.isMultiBuilding) {
+      // 複数棟: チェックされた棟のみ送信
+      const checked = getCheckedBuildingsWithStaff('end');
+      if (checked.length === 0) { showError('清掃が完了した棟を1つ以上選んでください'); return; }
+      if (!currentProperty.noStaff) {
+        const missing = checked.filter(b => !b.staff);
+        if (missing.length > 0) {
+          showError(`以下の棟の担当者名を入力してください: ${missing.map(b => b.label).join('・')}`);
+          return;
+        }
+      }
+      const buildingsData = [];
+      let totalAfterPhotos = 0;
+      checked.forEach(b => {
+        const photosAfter = photoStore[`photos_after_${b.id}`] || [];
+        const photosRepair = photoStore[`photos_repair_${b.id}`] || [];
+        const repairTextEl = document.getElementById(`end_repair_${b.id}`);
+        const repair = repairTextEl ? repairTextEl.value.trim() : '';
+        totalAfterPhotos += photosAfter.length;
+        buildingsData.push({
+          id: b.id,
+          label: b.label,
+          staff: b.staff,
+          photos_after: photosAfter,
+          repair,
+          photos_repair: photosRepair,
+        });
+      });
+      payload.buildings = buildingsData;
+      // 互換用: 代表者として最初の棟の担当者を共通staffにも
+      payload.staff = checked[0].staff;
+    } else {
+      const staff = document.getElementById('end_staff').value.trim();
+      if (!staff) { showError('担当者名を入力してください'); return; }
+      payload.staff = staff;
+      // 単独物件: 既存の写真_after・修繕欄を使う（写真は任意・2026-05-23 必須解除）
+      payload.buildings = [{
+        id: currentProperty.listings[0].id,
+        label: '',
+        staff,
+        photos_after: photoStore.photos_after,
+        repair: document.getElementById('end_repair').value.trim(),
+        photos_repair: photoStore.photos_repair,
+      }];
+      // 後方互換: 既存フィールドも残す
+      payload.repair = document.getElementById('end_repair').value.trim();
+      payload.photos_after = photoStore.photos_after;
+      payload.photos_repair = photoStore.photos_repair;
+    }
+  }
+
+  setLoading(true, '送信中...');
+
+  try {
+    if (!API_ENDPOINT) {
+      console.log('[DRY-RUN] payload', payload);
+      await new Promise(r => setTimeout(r, 800));
+      document.getElementById('successTitle').textContent =
+        phase === 'start' ? '清掃開始を記録しました' : '清掃完了を報告しました';
+      document.getElementById('successSubtext').textContent = '※送信先未設定（テストモード）';
+    } else {
+      const res = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const j = await res.json().catch(() => ({}));
+      if (j && j.ok === false) throw new Error(j.error || '送信失敗');
+      // サーバが重複・順序統合を検知した場合はその旨を表示
+      if (j && j.duplicate) {
+        document.getElementById('successTitle').textContent = '受け付けました（重複を検知）';
+        document.getElementById('successSubtext').textContent =
+          j.notice || 'すでに同じ報告があったため、重複として処理しました。';
+      } else {
+        document.getElementById('successTitle').textContent =
+          phase === 'start' ? '清掃開始を記録しました' : '清掃完了を報告しました';
+        document.getElementById('successSubtext').textContent = (j && j.notice) ? j.notice : '';
+      }
+    }
+    // 本日この物件の開始を記録済みとしてマーク（完了QR先行時の警告に使う）
+    if (phase === 'start') markStartDone();
+    showScreen('success');
+  } catch (e) {
+    showError('送信に失敗しました: ' + e.message + '\n時間を置いて再度お試しください');
+  } finally {
+    setLoading(false);
+  }
+}
+
+// ===== シーツ在庫送信 =====
+async function submitSheet() {
+  const staff = document.getElementById('sheet_staff').value.trim();
+  if (!staff) { showError('担当者名を入力してください'); return; }
+  const propertyName = document.getElementById('sheet_property').value.trim();
+  if (!propertyName) { showError('収納場所を入力してください'); return; }
+  const warehouseName = ''; // 「収納場所」1欄に統合・後方互換のため空送信
+
+  // 在庫数を収集（空欄は送らない）
+  const stock = {};
+  // 既存5品目 + デュベ（data-stock属性ベース・disabledは値を読まない）
+  document.querySelectorAll('.stock-input[data-stock]').forEach(inp => {
+    if (inp.disabled) return;
+    const v = inp.value.trim();
+    if (v !== '') stock[inp.dataset.stock] = parseInt(v, 10) || 0;
+  });
+  if (Object.keys(stock).length === 0 && !document.getElementById('sheet_other').value.trim()) {
+    showError('在庫数を1項目以上入力してください');
+    return;
+  }
+
+  const payload = {
+    property_name: propertyName,
+    warehouse_name: warehouseName,
+    staff,
+    stock,
+    other: document.getElementById('sheet_other').value.trim(),
+    notes: document.getElementById('sheet_notes').value.trim(),
+    submitted_at: new Date().toISOString(),
+  };
+
+  setLoading(true, '送信中...');
+  try {
+    const res = await fetch(SHEET_API_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const j = await res.json().catch(() => ({}));
+    if (j && j.ok === false) throw new Error(j.error || '送信失敗');
+    document.getElementById('successTitle').textContent = '在庫を報告しました';
+    document.getElementById('successSubtext').textContent = '';
+    showScreen('success');
+  } catch (e) {
+    showError('送信に失敗しました: ' + e.message);
+  } finally {
+    setLoading(false);
+  }
+}
+
+// ブラウザの「戻る」やタブ復帰でページがキャッシュ(bfcache)から復元された場合は、
+// 前日・前回の入力状態が残ったまま再送信されるのを防ぐため必ず作り直す。
+// QRのURLパラメータは保持されるので、リロードで新鮮な空フォームに戻る。
+window.addEventListener('pageshow', e => {
+  if (e.persisted) location.reload();
+});
+
+init();
+</script>
+
+</body>
+</html>

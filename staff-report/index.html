@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#2a6df5">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<title>従業員報告 | CAGOO</title>
+<style>
+  :root {
+    --bg-top: #f5f3ee;
+    --bg-bot: #e8ecef;
+    --card: #ffffff;
+    --text: #1a1a1f;
+    --text-sub: #6b6b73;
+    --border: #e2e2e7;
+    --primary: #2a6df5;
+    --primary-dark: #1d5ae0;
+    --success: #2ecc71;
+    --danger: #e74c3c;
+    --warning: #f39c12;
+    --note: #f1c40f;
+    --shadow-sm: 0 1px 3px rgba(30,30,40,0.06), 0 1px 2px rgba(30,30,40,0.04);
+    --shadow-md: 0 4px 16px rgba(30,30,40,0.08), 0 2px 4px rgba(30,30,40,0.04);
+    --shadow-btn: 0 4px 14px rgba(42,109,245,0.35);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+    color: var(--text);
+    background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bot) 100%);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 0.01em;
+  }
+
+  .phone-frame { max-width: 480px; margin: 0 auto; min-height: 100vh; }
+  .phone-content { padding: 20px 18px 120px; }
+
+  /* ヘッダー */
+  .header { margin-bottom: 20px; }
+  .brand {
+    display: inline-block;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.22em;
+    color: var(--text-sub);
+    margin-bottom: 6px;
+  }
+  .page-title { font-size: 28px; font-weight: 800; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .subtitle { font-size: 13px; color: var(--text-sub); margin: 0; }
+
+  /* ログイン画面 */
+  .login-card {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 40px 28px;
+    box-shadow: var(--shadow-md);
+    text-align: center;
+    margin-top: 40px;
+  }
+  .login-icon {
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, #2a6df5, #4285f4);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; color: #fff;
+  }
+  .login-title { font-size: 20px; font-weight: 700; margin: 0 0 8px; }
+  .login-desc { font-size: 14px; color: var(--text-sub); line-height: 1.6; margin: 0 0 28px; }
+
+  .google-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #fff; color: #3c4043;
+    border: 1px solid #dadce0;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 15px; font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(60,64,67,0.3);
+    transition: background 0.15s;
+  }
+  .google-btn:hover { background: #f8f9fa; }
+  .google-btn:active { background: #e8eaed; }
+  .google-btn svg { width: 20px; height: 20px; }
+
+  /* ユーザー情報バー */
+  .user-bar {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--card);
+    padding: 10px 14px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  .user-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, #2a6df5, #4285f4);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+  }
+  .user-name { font-size: 14px; font-weight: 600; flex: 1; }
+  .user-email { font-size: 11px; color: var(--text-sub); }
+  .logout-link { font-size: 12px; color: var(--primary); cursor: pointer; text-decoration: none; }
+
+  /* カテゴリ選択 */
+  .category-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+    margin-bottom: 20px;
+  }
+  .category-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    box-shadow: var(--shadow-sm);
+  }
+  .category-card:active { transform: scale(0.97); }
+  .category-card.selected { border-color: var(--primary); background: #f0f6ff; }
+  .category-card .emoji { font-size: 28px; display: block; margin-bottom: 6px; }
+  .category-card .label { font-size: 12px; font-weight: 700; }
+  .category-card.maintenance.selected { border-color: var(--danger); background: #fff0f0; }
+  .category-card.order.selected { border-color: var(--primary); background: #f0f6ff; }
+  .category-card.note.selected { border-color: var(--note); background: #fffcea; }
+
+  /* フォーム */
+  .form-card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow-sm);
+  }
+  .field-label {
+    font-size: 12px; font-weight: 700; color: var(--text-sub);
+    letter-spacing: 0.04em; margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .field-label .req { color: var(--danger); margin-left: 3px; }
+  select, textarea, input[type=text] {
+    width: 100%;
+    padding: 11px 13px;
+    font-size: 15px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--text);
+    font-family: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236b6b73' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 34px;
+  }
+  textarea { min-height: 100px; resize: vertical; font-size: 15px; line-height: 1.6; }
+
+  /* 優先度ラジオ */
+  .priority-group {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
+  }
+  .priority-opt {
+    display: flex; align-items: center; justify-content: center;
+    padding: 10px 6px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 13px; font-weight: 700;
+    cursor: pointer;
+    background: #fff;
+  }
+  .priority-opt input { display: none; }
+  .priority-opt.low.sel    { border-color: #b5b5b9; background: #f2f2f5; }
+  .priority-opt.mid.sel    { border-color: var(--primary); background: #eaf2ff; color: var(--primary); }
+  .priority-opt.high.sel   { border-color: var(--danger); background: #ffecea; color: var(--danger); }
+
+  /* 写真 */
+  .photo-btn {
+    display: block; width: 100%;
+    padding: 14px;
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    background: #fafafa;
+    color: var(--text-sub);
+    font-size: 14px; text-align: center;
+    cursor: pointer;
+  }
+  .photo-preview {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+    margin-top: 10px;
+  }
+  .photo-preview img {
+    width: 100%; aspect-ratio: 1; object-fit: cover;
+    border-radius: 8px;
+  }
+  .photo-item { position: relative; }
+  .photo-remove {
+    position: absolute; top: 3px; right: 3px;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(0,0,0,0.6); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; cursor: pointer; border: none;
+  }
+
+  /* 送信ボタン */
+  .submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px; font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow-btn);
+    margin-top: 8px;
+  }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .submit-btn.maintenance { background: linear-gradient(180deg, #e74c3c 0%, #c0392b 100%); box-shadow: 0 4px 14px rgba(231,76,60,0.35); }
+  .submit-btn.note { background: linear-gradient(180deg, #f39c12 0%, #d68910 100%); box-shadow: 0 4px 14px rgba(243,156,18,0.35); color: #fff; }
+
+  /* トースト */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--text); color: #fff;
+    padding: 12px 22px; border-radius: 999px;
+    font-size: 14px; font-weight: 600;
+    z-index: 2000;
+    opacity: 0; transition: opacity 0.25s;
+    pointer-events: none;
+    max-width: 90vw;
+    text-align: center;
+  }
+  .toast.show { opacity: 1; }
+  .toast.success { background: var(--success); }
+  .toast.error { background: var(--danger); }
+
+  /* スピナー */
+  .spinner {
+    display: inline-block;
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-right: 8px; vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+  <div class="phone-content">
+    <div class="header">
+      <span class="brand">CAGOO · STAFF</span>
+      <h1 class="page-title">従業員報告</h1>
+      <p class="subtitle">修繕・発注・気付きを記録します</p>
+    </div>
+
+    <!-- ログイン画面（未認証時） -->
+    <div id="login-view" class="login-card hidden">
+      <div class="login-icon">🔐</div>
+      <h2 class="login-title">社内ログイン</h2>
+      <p class="login-desc">CAGOOの従業員アカウントでログインしてください。<br>初回のみ承認が必要です。</p>
+      <button class="google-btn" onclick="startLogin()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+          <path fill="#FFC107" d="M43.61 20.08H42V20H24v8h11.3c-1.65 4.66-6.08 8-11.3 8-6.63 0-12-5.37-12-12s5.37-12 12-12c3.06 0 5.84 1.15 7.96 3.04l5.66-5.66C34.05 6.05 29.27 4 24 4 12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20c0-1.34-.14-2.65-.39-3.92z"/>
+          <path fill="#FF3D00" d="M6.31 14.69l6.57 4.82C14.66 15.1 18.96 12 24 12c3.06 0 5.84 1.15 7.96 3.04l5.66-5.66C34.05 6.05 29.27 4 24 4 16.32 4 9.66 8.34 6.31 14.69z"/>
+          <path fill="#4CAF50" d="M24 44c5.16 0 9.86-1.97 13.4-5.2l-6.19-5.23c-2.11 1.43-4.82 2.29-7.21 2.29-5.2 0-9.62-3.32-11.28-7.95l-6.52 5.02C9.51 39.56 16.23 44 24 44z"/>
+          <path fill="#1976D2" d="M43.61 20.08H42V20H24v8h11.3c-.79 2.24-2.23 4.15-4.09 5.57l6.19 5.23C40.98 35.03 44 30 44 24c0-1.34-.14-2.65-.39-3.92z"/>
+        </svg>
+        Googleでログイン
+      </button>
+    </div>
+
+    <!-- メインフォーム（認証済み） -->
+    <div id="main-view" class="hidden">
+      <div class="user-bar">
+        <div class="user-avatar" id="user-initial">?</div>
+        <div style="flex:1;">
+          <div class="user-name" id="user-name">—</div>
+          <div class="user-email" id="user-email">—</div>
+        </div>
+        <a class="logout-link" onclick="logout()">ログアウト</a>
+      </div>
+
+      <!-- カテゴリ -->
+      <div class="category-grid" role="radiogroup" aria-label="カテゴリ">
+        <div class="category-card maintenance" data-cat="maintenance" onclick="selectCategory('maintenance')">
+          <span class="emoji">🔧</span>
+          <span class="label">修繕</span>
+        </div>
+        <div class="category-card order" data-cat="order" onclick="selectCategory('order')">
+          <span class="emoji">📦</span>
+          <span class="label">発注</span>
+        </div>
+        <div class="category-card note" data-cat="note" onclick="selectCategory('note')">
+          <span class="emoji">💡</span>
+          <span class="label">気付き</span>
+        </div>
+      </div>
+
+      <!-- フォーム -->
+      <div id="form-section" class="hidden">
+        <div class="form-card">
+          <div class="field-label">施設<span class="req">*</span></div>
+          <select id="property" required>
+            <option value="">選択してください</option>
+          </select>
+        </div>
+
+        <div class="form-card">
+          <div class="field-label">内容<span class="req">*</span></div>
+          <textarea id="content" placeholder="例: 洗面台の水栓から水漏れ。早めに交換推奨。" maxlength="2000"></textarea>
+        </div>
+
+        <div class="form-card">
+          <div class="field-label">優先度</div>
+          <div class="priority-group">
+            <label class="priority-opt low sel" data-p="低"><input type="radio" name="priority" value="低" checked>低</label>
+            <label class="priority-opt mid" data-p="中"><input type="radio" name="priority" value="中">中</label>
+            <label class="priority-opt high" data-p="高"><input type="radio" name="priority" value="高">高</label>
+          </div>
+        </div>
+
+        <div class="form-card" id="vendor-card" style="display:none;">
+          <div class="field-label">発注先（任意）</div>
+          <input type="text" id="vendor" placeholder="例: アスクル / Amazon / 近くのホームセンター">
+        </div>
+
+        <div class="form-card">
+          <div class="field-label">写真（任意・最大6枚）</div>
+          <label class="photo-btn">
+            📷 写真を追加
+            <input type="file" id="photos" accept="image/*" multiple capture="environment" style="display:none;">
+          </label>
+          <div class="photo-preview" id="photo-preview"></div>
+        </div>
+
+        <button class="submit-btn" id="submit-btn" onclick="submitReport()">報告を送信</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API_BASE = 'https://line-harness.corp-162.workers.dev';
+
+// 施設一覧（data/properties.yaml のactive物件から手動反映）
+const PROPERTIES = [
+  { id: 'kago-1st',      name: 'KAGO 1st Floor' },
+  { id: 'kago-2nd',      name: 'KAGO 2nd Floor' },
+  { id: 'zekkei',        name: 'LABO(ZEKKEI)' },
+  { id: 'zawa',          name: 'ZAWA' },
+  { id: 'cocon-fuji-b',  name: 'COCON B棟' },
+  { id: 'cocon-fuji-w',  name: 'COCON W棟' },
+  { id: 'natan',         name: 'NATAN' },
+  { id: 'sho-show',      name: 'SHO-SHOW' },
+  { id: 'persimmon-a',   name: 'Persimmon A' },
+  { id: 'persimmon-b',   name: 'Persimmon B' },
+  { id: 'forestella-01', name: 'Forestella 01' },
+  { id: 'forestella-02', name: 'Forestella 02' },
+  { id: 'kagura',        name: '神蔵(Kagura)' },
+  { id: 'mirokusou',     name: '美麓荘' },
+];
+
+let currentCategory = null;
+let photoDataUrls = [];
+let currentUser = null;
+
+// ===== 認証チェック =====
+async function checkAuth() {
+  try {
+    const r = await fetch(`${API_BASE}/api/auth/me`, { credentials: 'include' });
+    const d = await r.json();
+    if (d.authenticated) {
+      currentUser = d;
+      showMainView();
+    } else {
+      showLoginView();
+    }
+  } catch (e) {
+    showLoginView();
+  }
+}
+
+function showLoginView() {
+  document.getElementById('login-view').classList.remove('hidden');
+  document.getElementById('main-view').classList.add('hidden');
+}
+
+function showMainView() {
+  document.getElementById('login-view').classList.add('hidden');
+  document.getElementById('main-view').classList.remove('hidden');
+  document.getElementById('user-name').textContent = currentUser.name;
+  document.getElementById('user-email').textContent = currentUser.email;
+  document.getElementById('user-initial').textContent = (currentUser.name || currentUser.email).charAt(0).toUpperCase();
+
+  // 施設プルダウン
+  const sel = document.getElementById('property');
+  for (const p of PROPERTIES) {
+    const opt = document.createElement('option');
+    opt.value = p.id;
+    opt.textContent = p.name;
+    sel.appendChild(opt);
+  }
+}
+
+function startLogin() {
+  const returnTo = encodeURIComponent('/cagoo-reports/staff-report/');
+  location.href = `${API_BASE}/api/auth/google?return_to=${returnTo}`;
+}
+
+async function logout() {
+  await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST', credentials: 'include' });
+  location.reload();
+}
+
+// ===== カテゴリ選択 =====
+function selectCategory(cat) {
+  currentCategory = cat;
+  document.querySelectorAll('.category-card').forEach(el => {
+    el.classList.toggle('selected', el.dataset.cat === cat);
+  });
+  document.getElementById('form-section').classList.remove('hidden');
+  // 発注カードの表示制御
+  document.getElementById('vendor-card').style.display = (cat === 'order') ? 'block' : 'none';
+  // 優先度のデフォルト
+  const radios = document.querySelectorAll('input[name=priority]');
+  radios.forEach(r => r.checked = false);
+  const defaultPri = (cat === 'order') ? '中' : '低';
+  const defaultRadio = document.querySelector(`input[name=priority][value="${defaultPri}"]`);
+  if (defaultRadio) { defaultRadio.checked = true; }
+  updatePriorityVisual();
+  // 送信ボタンの色変更
+  const btn = document.getElementById('submit-btn');
+  btn.className = `submit-btn ${cat}`;
+}
+
+// 優先度ラジオの見た目更新
+document.addEventListener('change', (e) => {
+  if (e.target.name === 'priority') updatePriorityVisual();
+});
+function updatePriorityVisual() {
+  document.querySelectorAll('.priority-opt').forEach(el => {
+    const input = el.querySelector('input');
+    el.classList.toggle('sel', input.checked);
+  });
+}
+
+// ===== 写真プレビュー =====
+document.getElementById('photos').addEventListener('change', async (e) => {
+  for (const file of e.target.files) {
+    if (photoDataUrls.length >= 6) break;
+    const dataUrl = await fileToDataUrl(file);
+    photoDataUrls.push(dataUrl);
+  }
+  renderPhotos();
+  e.target.value = '';
+});
+
+function fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = (e) => { img.src = e.target.result; };
+    reader.onerror = reject;
+    img.onload = () => {
+      // リサイズ（最長1600px・JPEG品質0.85）
+      const maxSize = 1600;
+      let { width, height } = img;
+      if (width > maxSize || height > maxSize) {
+        if (width > height) { height *= maxSize / width; width = maxSize; }
+        else                { width *= maxSize / height; height = maxSize; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width; canvas.height = height;
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+      resolve(canvas.toDataURL('image/jpeg', 0.85));
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderPhotos() {
+  const p = document.getElementById('photo-preview');
+  p.innerHTML = '';
+  photoDataUrls.forEach((dataUrl, i) => {
+    const div = document.createElement('div');
+    div.className = 'photo-item';
+    div.innerHTML = `<img src="${dataUrl}"><button class="photo-remove" onclick="removePhoto(${i})">×</button>`;
+    p.appendChild(div);
+  });
+}
+
+function removePhoto(i) {
+  photoDataUrls.splice(i, 1);
+  renderPhotos();
+}
+
+// ===== 送信 =====
+async function submitReport() {
+  if (!currentCategory) { toast('カテゴリを選択してください', 'error'); return; }
+  const propId = document.getElementById('property').value;
+  const content = document.getElementById('content').value.trim();
+  const priority = document.querySelector('input[name=priority]:checked')?.value || '低';
+  const vendor = document.getElementById('vendor').value.trim();
+
+  if (!propId) { toast('施設を選択してください', 'error'); return; }
+  if (!content) { toast('内容を入力してください', 'error'); return; }
+
+  const prop = PROPERTIES.find(p => p.id === propId);
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>送信中...';
+
+  try {
+    const payload = {
+      category: currentCategory,
+      property_id: propId,
+      property_name: prop.name,
+      content,
+      priority,
+      submitted_at: new Date().toISOString(),
+      photos: photoDataUrls,
+    };
+    if (currentCategory === 'order' && vendor) payload.order_vendor = vendor;
+
+    const r = await fetch(`${API_BASE}/api/staff-report`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const d = await r.json();
+
+    if (!r.ok || !d.ok) {
+      throw new Error(d.error || `HTTP ${r.status}`);
+    }
+    toast('送信しました ✓', 'success');
+    // フォームリセット
+    document.getElementById('content').value = '';
+    document.getElementById('vendor').value = '';
+    photoDataUrls = [];
+    renderPhotos();
+    setTimeout(() => { toast('', ''); }, 2500);
+  } catch (e) {
+    toast('送信失敗: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '報告を送信';
+  }
+}
+
+// ===== Toast =====
+function toast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast show ${type}`;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.className = 'toast'; }, 2500);
+}
+
+// ===== PWA Service Worker =====
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+}
+
+// 起動
+checkAuth();
+</script>
+</body>
+</html>
