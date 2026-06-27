@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<title>CAGOO 物件パイプライン（概況）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Noto+Sans+JP:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#ffffff;--bg-soft:#f6f5f3;--ink:#16161a;--ink-2:#45454c;--ink-3:#8c8c92;--line:#e4e2dd;
+  --side:#161518;--side-2:#201f23;--side-3:#2c2b30;--side-fg:#ededf0;--side-dim:#9a98a0;
+  --st-soudan:#6b7280;--st-keikaku:#9a7e4f;--st-tachiage:#4f6d8c;--st-unei:#6f6076;--st-gai:#9a9a96;
+  --shadow:0 1px 2px rgba(20,20,24,.05),0 6px 20px rgba(20,20,24,.06);
+}
+*{box-sizing:border-box;}html,body{margin:0;padding:0;}
+body{background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",system-ui,sans-serif;font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+.app{display:grid;grid-template-columns:236px 1fr;min-height:100vh;}
+.sidebar{background:var(--side);color:var(--side-fg);padding:24px 0;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;border-right:1px solid #000;}
+.brand{padding:0 22px 20px;border-bottom:1px solid var(--side-3);}
+.brand .logo{font-family:"Fraunces",serif;font-size:21px;font-weight:600;color:#fff;letter-spacing:.04em;}
+.brand .logo small{display:block;font-family:"Noto Sans JP",sans-serif;font-size:10px;font-weight:500;color:var(--side-dim);letter-spacing:.18em;margin-top:3px;}
+.note{margin:14px 18px 0;padding:10px 12px;background:var(--side-2);border:1px solid var(--side-3);border-radius:8px;font-size:10px;color:var(--side-dim);line-height:1.6;}
+.nav{padding:10px 12px;flex:1;}
+.nav-section{font-size:10px;color:var(--side-dim);letter-spacing:.18em;padding:14px 10px 6px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;color:var(--side-fg);border-radius:6px;cursor:pointer;font-weight:500;font-size:13px;}
+.nav-item:hover{background:var(--side-2);}.nav-item.active{background:#fff;color:#161518;}
+.nav-item.active .badge{background:#161518;color:#fff;}
+.badge{margin-left:auto;background:var(--side-3);color:var(--side-fg);font-size:10px;padding:1px 7px;border-radius:10px;font-family:"JetBrains Mono",monospace;}
+.foot{padding:14px 18px;border-top:1px solid var(--side-3);font-size:11px;color:var(--side-dim);}
+.main{padding:26px 32px 60px;}
+.crumb{color:var(--ink-3);font-size:12px;letter-spacing:.08em;}
+.title{font-family:"Fraunces",serif;font-size:28px;font-weight:500;margin:4px 0 0;}
+.title small{font-family:"Noto Sans JP",sans-serif;font-size:13px;color:var(--ink-3);margin-left:12px;}
+.banner{background:var(--bg-soft);border:1px solid var(--line);border-radius:10px;padding:11px 18px;margin:18px 0 22px;font-size:12px;color:var(--ink-3);}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:26px;}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;}
+.kpi .n{font-family:"Fraunces",serif;font-size:26px;}.kpi .l{font-size:11px;color:var(--ink-3);margin-top:6px;display:flex;align-items:center;gap:6px;}
+.sw{width:9px;height:9px;border-radius:3px;display:inline-block;}
+.sec-h{font-family:"Fraunces",serif;font-size:16px;margin:22px 0 12px;display:flex;align-items:center;gap:10px;}
+.sec-h .c{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-3);}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:13px 15px;}
+.card .nm{font-size:14px;font-weight:600;}
+.card .nx{font-size:11px;color:var(--ink-3);margin-top:6px;}
+.pill{font-size:10px;padding:2px 10px;border-radius:12px;color:#fff;font-weight:500;float:right;}
+@media(max-width:820px){.app{grid-template-columns:1fr;}.sidebar{position:relative;height:auto;}.kpis{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="logo">CAGOO 物件<small>パイプライン概況</small></div></div>
+    <div class="note">公開オーバービュー版。オーナー名・金額・連絡先・商談詳細は含みません（社内版で管理）。</div>
+    <nav class="nav">
+      <div class="nav-section">ステージ</div>
+      <div class="nav-item active" data-v="all"><span>◎</span>すべて<span class="badge" id="b-all"></span></div>
+      <div class="nav-item" data-v="相談中"><span>◔</span>相談中<span class="badge" id="b-相談中"></span></div>
+      <div class="nav-item" data-v="計画中"><span>◑</span>計画中<span class="badge" id="b-計画中"></span></div>
+      <div class="nav-item" data-v="立ち上げ中"><span>◕</span>立ち上げ中<span class="badge" id="b-立ち上げ中"></span></div>
+      <div class="nav-item" data-v="運営中"><span>●</span>運営中<span class="badge" id="b-運営中"></span></div>
+      <div class="nav-item" data-v="対象外"><span>○</span>対象外<span class="badge" id="b-対象外"></span></div>
+    </nav>
+    <div class="foot">CAGOO 株式会社<br>物件管理プラットフォーム</div>
+  </aside>
+  <main class="main">
+    <div class="crumb">物件管理</div>
+    <h1 class="title" id="title">パイプライン概況<small id="sub"></small></h1>
+    <div class="banner">相談 → 計画 → 立ち上げ → 運営 の各ステージにある物件の概況です。詳細（進捗・打合せ・連絡先・収支）は社内ダッシュボードで管理しています。</div>
+    <div id="view"></div>
+  </main>
+</div>
+<script>
+const stageColor={'相談中':'var(--st-soudan)','計画中':'var(--st-keikaku)','立ち上げ中':'var(--st-tachiage)','運営中':'var(--st-unei)','対象外':'var(--st-gai)'};
+const stageNext={'相談中':'相談・査定対応中','計画中':'計画・提案準備中','立ち上げ中':'開業準備・配線中','運営中':'運営中','対象外':'パイプライン対象外'};
+const STAGES=['相談中','計画中','立ち上げ中','運営中','対象外'];
+const P=[
+ {n:'河口湖新築物件D',s:'相談中'},{n:'小立新築物件',s:'相談中'},{n:'船津物件',s:'相談中'},{n:'ヴィラメイクイン',s:'相談中'},{n:'鳴沢コンテナ物件',s:'相談中'},
+ {n:'FUJI VIEW VILLAGE 八',s:'計画中'},
+ {n:'SANKA',s:'立ち上げ中'},{n:'河口湖印刷',s:'立ち上げ中'},{n:'リズム新築コンテナ',s:'立ち上げ中'},{n:'HICO',s:'立ち上げ中'},{n:'カイノサト',s:'立ち上げ中'},{n:'本町通 新築',s:'立ち上げ中'},
+ {n:'KAGO',s:'運営中'},{n:'LABO（ZEKKEI）',s:'運営中'},{n:'ZAWA',s:'運営中'},{n:'COCON',s:'運営中'},{n:'NATAN',s:'運営中'},{n:'将show',s:'運営中'},{n:'Persimmon',s:'運営中'},{n:'彩 Forestella',s:'運営中'},{n:'神蔵（Kagura）',s:'運営中'},{n:'美麓荘（Mirokusou）',s:'運営中'},{n:'河内家ゲストハウス',s:'運営中'},{n:'月光寺事務所',s:'運営中'},{n:'なだや',s:'運営中'},{n:'河口湖駅前店',s:'運営中'},{n:'ビレッジ',s:'運営中'},{n:'アリビオ',s:'運営中'},{n:'数奇屋',s:'運営中'},{n:'タイニー',s:'運営中'},
+ {n:'鐘山物件',s:'対象外'},
+];
+let view='all';
+document.querySelectorAll('.nav-item').forEach(el=>el.onclick=()=>{view=el.dataset.v;document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.v===view));render();});
+function card(p){return `<div class="card"><span class="pill" style="background:${stageColor[p.s]}">${p.s}</span><div class="nm">${p.n}</div><div class="nx">${stageNext[p.s]}</div></div>`;}
+function render(){
+  STAGES.forEach(s=>{document.getElementById('b-'+s).textContent=P.filter(p=>p.s===s).length;});
+  document.getElementById('b-all').textContent=P.length;
+  document.getElementById('sub').textContent=' '+(view==='all'?P.length:P.filter(p=>p.s===view).length)+'件';
+  if(view==='all'){
+    const kpi=STAGES.map(s=>`<div class="kpi"><div class="n">${P.filter(p=>p.s===s).length}</div><div class="l"><span class="sw" style="background:${stageColor[s]}"></span>${s}</div></div>`).join('');
+    const secs=STAGES.map(s=>{const it=P.filter(p=>p.s===s);return it.length?`<div class="sec-h"><span class="sw" style="background:${stageColor[s]}"></span>${s} <span class="c">${it.length}</span></div><div class="cgrid">${it.map(card).join('')}</div>`:'';}).join('');
+    document.getElementById('view').innerHTML=`<div class="kpis">${kpi}</div>${secs}`;
+  }else{
+    const it=P.filter(p=>p.s===view);
+    document.getElementById('view').innerHTML=`<div class="cgrid">${it.map(card).join('')}</div>`;
+  }
+}
+render();
+</script>
+</body>
+</html>
