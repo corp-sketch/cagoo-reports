@@ -512,6 +512,8 @@
         <div class="card">
           <label>スタッフからあげる気づき</label>
           <textarea id="end_insight" placeholder="気づいたこと・改善できそうな点があれば（なければ空欄でOK）"></textarea>
+          <label class="file-label">📷 写真<input type="file" accept="image/*" multiple data-target="photos_insight"></label>
+          <div class="photo-input" id="photos_insight"></div>
         </div>
 
         <div class="card">
@@ -929,6 +931,7 @@ const photoStore = {
   photos_lost: [],
   photos_repair: [],
   photos_order: [],
+  photos_insight: [],
   photos_after: []
 };
 
@@ -1379,6 +1382,7 @@ async function submit(phase) {
     payload.notes = document.getElementById('end_notes').value.trim();
     payload.photos_lost = photoStore.photos_lost;
     payload.photos_order = photoStore.photos_order;
+    payload.photos_insight = photoStore.photos_insight;
 
     if (currentProperty.isMultiBuilding) {
       // 複数棟: チェックされた棟のみ送信
